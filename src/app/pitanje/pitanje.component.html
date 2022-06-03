@@ -1,0 +1,4 @@
+<div *ngIf="pitanje" [className]="pitanje.isCorrect ? 'correctContainer' : 'incorrectContainer'">
+    {{pitanje.dateUpdated}} -- {{pitanje.dateCreated}}
+    <p>{{pitanje.text}}</p>
+</div>
