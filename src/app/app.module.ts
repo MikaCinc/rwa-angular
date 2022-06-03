@@ -15,6 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /* Material UI */
 import { MatSliderModule } from '@angular/material/slider';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { MatSliderModule } from '@angular/material/slider';
     EffectsModule.forRoot([PitanjaEffects]),
     BrowserAnimationsModule,
     /* Material UI */
-    MatSliderModule
+    MatSliderModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
