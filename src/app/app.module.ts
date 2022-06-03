@@ -11,6 +11,10 @@ import { PitanjaEffects } from './store/pitanje.effects';
 import { pitanjaReducer } from './store/pitanje.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { SetPitanjaComponent } from './set-pitanja/set-pitanja.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+/* Material UI */
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,10 @@ import { SetPitanjaComponent } from './set-pitanja/set-pitanja.component';
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot<AppState>({ pitanja: pitanjaReducer }),
-    EffectsModule.forRoot([PitanjaEffects])
+    EffectsModule.forRoot([PitanjaEffects]),
+    BrowserAnimationsModule,
+    /* Material UI */
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
