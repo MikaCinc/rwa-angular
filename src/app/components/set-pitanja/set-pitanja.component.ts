@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { AppState } from '../app.state';
-import { Pitanje } from '../models/pitanje';
-import { loadPitanja, selectPitanje } from '../store/pitanje.action';
-import { selectPitanjesList } from '../store/pitanje.selector';
+import { AppState } from '../../app.state';
+import { Pitanje } from '../../models/pitanje';
+import { loadPitanja, selectPitanje } from '../../store/pitanje.action';
+import { selectPitanjesList } from '../../store/pitanje.selector';
 
 @Component({
   selector: 'app-set-pitanja',
