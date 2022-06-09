@@ -13,4 +13,8 @@ export class PitanjeService {
   getAll() {
     return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + '/pitanje');
   }
+
+  getAllByCategory(categoryId: number) {
+    return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + `/pitanje/kategorija/${categoryId}`);
+  }
 }

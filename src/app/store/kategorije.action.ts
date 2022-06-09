@@ -7,7 +7,7 @@ export const loadKategorijeSuccess = createAction(
   props<{ kategorije: Kategorija[] }>()
 );
 export const selectKategorija = createAction(
-  'Select pitanje',
+  'Select kategorija',
   props<{ kategorijaId: number }>()
 );
 

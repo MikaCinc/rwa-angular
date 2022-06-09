@@ -1,14 +1,17 @@
 <h2>{{ title }}</h2>
-<mat-chip-list
-  *ngFor="let kategorija of kategorije$ | async"
-  aria-label="Fish selection"
->
+<mat-chip-list aria-label="Izbor kategorija">
+  <!-- (selectionChange)="promenaKategorija($event)" -->
   <mat-chip
-    [selected]="kategorija.id === (selectedKategorijaId$ | async)"
+    *ngFor="let kategorija of kategorije$ | async"
+    color="primary"
+    (click)="promenaKategorija(kategorija)"
+    [value]="kategorija.name"
     [selectable]="true"
-    (selectionChange)="promenaKategorija(kategorija)"
+    [selected]="kategorija.id === (selectedKategorijaId$ | async)"
     >{{ kategorija.name }}</mat-chip
   >
+  <!-- [selected]="kategorija.id === (selectedKategorijaId$ | async)"
+  [selectable]="true" -->
   <!-- <mat-chip>Two fish</mat-chip>
   <mat-chip color="primary" selected>Primary fish</mat-chip>
   <mat-chip color="accent" selected>Accent fish</mat-chip> -->

@@ -15,7 +15,7 @@ export interface KategorijaState extends EntityState<Kategorija> {
 const adapter = createEntityAdapter<Kategorija>();
 
 export const initialState: KategorijaState = adapter.getInitialState({
-    selectedKategorija: 0,
+    selectedKategorija: -1,
 });
 
 export const kategorijeReducer = createReducer(

@@ -14,7 +14,22 @@ export class PitanjaEffects {
         this.pitanjeService.getAll().pipe(
           map((res) => {
             if (res.success && res.data) return res.data;
-            else throw new Error(res.message || "Nije uspašeno učitavanje pitanja");
+            else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
+          }),
+          map((pitanja) => PitanjeActions.loadPitanjaSuccess({ pitanja })),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
+  loadPitanjaByCategory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PitanjeActions.loadPitanjaByCategory),
+      mergeMap(({ categoryId }) =>
+        this.pitanjeService.getAllByCategory(categoryId).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
           }),
           map((pitanja) => PitanjeActions.loadPitanjaSuccess({ pitanja })),
           catchError(() => of({ type: 'load error' }))
