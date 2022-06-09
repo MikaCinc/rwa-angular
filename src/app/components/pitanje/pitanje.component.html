@@ -1,14 +1,12 @@
 <!-- [className]="pitanje.isCorrect ? 'correctContainer' : 'incorrectContainer'" -->
-<mat-card
-  *ngIf="pitanje"
-  >
+<mat-card *ngIf="pitanje">
   <mat-card-title>{{ pitanje.text }}</mat-card-title>
   <mat-card-subtitle
     >{{ pitanje.dateUpdated }} -- {{ pitanje.dateCreated }}</mat-card-subtitle
   >
   <mat-card-actions>
-    <button mat-button>Tačno</button>
-    <button mat-button>Netačno</button>
+    <button mat-button (click)="validacija(true)">Tačno</button>
+    <button mat-button (click)="validacija(false)">Netačno</button>
   </mat-card-actions>
   <!-- {{ pitanje.dateUpdated }} -- {{ pitanje.dateCreated }} -->
   <!-- <p>{{ pitanje.text }}</p> -->

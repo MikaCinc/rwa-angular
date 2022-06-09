@@ -1,5 +1,9 @@
-<h2>{{title}}</h2>
+<h2>{{ title }}</h2>
 <p>set pitanja works!</p>
 <ul *ngFor="let pitanje of pitanja$ | async">
-    <app-pitanje [pitanje]="pitanje" (click)="selectPitanje(pitanje)"></app-pitanje>
+  <!-- (click)="selectPitanje(pitanje, true)" -->
+  <app-pitanje
+    [pitanje]="pitanje"
+    (submit)="submitAnswer($event)"
+  ></app-pitanje>
 </ul>

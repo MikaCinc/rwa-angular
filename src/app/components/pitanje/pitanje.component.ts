@@ -6,6 +6,10 @@ import { Pitanje } from '../../models/pitanje';
 import { loadPitanja, selectPitanje } from '../../store/pitanje.action';
 import { selectPitanjesList } from '../../store/pitanje.selector';
 
+export interface PitanjeValidacija extends Pitanje {
+  guess: boolean;
+}
+
 @Component({
   selector: 'app-pitanje',
   templateUrl: './pitanje.component.html',
@@ -13,7 +17,8 @@ import { selectPitanjesList } from '../../store/pitanje.selector';
 })
 export class PitanjeComponent implements OnInit {
   @Input() pitanje: Pitanje | null = null;
-  @Output() onClick: EventEmitter<Pitanje> = new EventEmitter<Pitanje>();
+  // @Output() onClick: EventEmitter<Pitanje> = new EventEmitter<Pitanje>();
+  @Output() submit: EventEmitter<PitanjeValidacija> = new EventEmitter<PitanjeValidacija>();
   // pitanje$: Observable<Pitanje> = of();
 
   constructor(private store: Store<AppState>) { }
@@ -23,6 +28,15 @@ export class PitanjeComponent implements OnInit {
   ngOnInit(): void {
     /* this.store.dispatch(loadPitanja());
     this.pitanja$ = this.store.select(selectPitanjesList); */
+  }
+
+  validacija(guess: boolean) {
+    if (!this.pitanje) return;
+    const objToSend = {
+      ...this.pitanje,
+      guess
+    }
+    this.submit.emit(objToSend);
   }
 
   /* selectPitanje(pitanje: Pitanje) {
