@@ -4,6 +4,17 @@
   <mat-card-subtitle
     >{{ pitanje.dateUpdated }} -- {{ pitanje.dateCreated }}</mat-card-subtitle
   >
+  <mat-chip-list aria-label="Izbor kategorija u okviru pitanja">
+    <mat-chip
+      *ngFor="let kategorija of kategorije$ | async"
+      color="primary"
+      (click)="promenaKategorija(kategorija)"
+      [value]="kategorija.name"
+      [selectable]="true"
+      [selected]="kategorija.id === (selectedKategorijaId$ | async)"
+      >{{ kategorija.name }}</mat-chip
+    >
+  </mat-chip-list>
   <mat-card-actions>
     <button mat-button (click)="validacija(true)">Tačno</button>
     <button mat-button (click)="validacija(false)">Netačno</button>

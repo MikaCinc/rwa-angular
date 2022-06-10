@@ -4,4 +4,5 @@ export interface Pitanje {
   isCorrect: boolean;
   dateCreated: Date;
   dateUpdated: Date;
+  categories: number[];
 }
