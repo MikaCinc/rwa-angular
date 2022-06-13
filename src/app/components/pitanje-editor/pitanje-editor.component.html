@@ -1,0 +1,52 @@
+<mat-card class="example-card">
+  <mat-card-title>Kreiraj novo pitanje</mat-card-title>
+  <mat-card-subtitle
+    >Pitanje će biti dostupno na početnoj strani</mat-card-subtitle
+  >
+  <mat-card-content>
+    <section class="categories-section">
+      <p>Izaberi odgovarajuće kategorije</p>
+      <mat-chip-list
+        multiple="true"
+        aria-label="Izbor kategorija u okviru pitanja"
+      >
+        <mat-chip
+          *ngFor="let kategorija of kategorije$ | async"
+          color="primary"
+          (click)="izborKategorije(kategorija)"
+          [value]="kategorija.name"
+          [selectable]="true"
+          [selected]="categories.includes(kategorija.id)"
+          >{{ kategorija.name }}</mat-chip
+        >
+      </mat-chip-list>
+    </section>
+
+    <mat-divider [inset]="true"></mat-divider>
+
+    <section class="text-section">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Tekst pitanja</mat-label>
+        <textarea matInput type="text" [(ngModel)]="value"></textarea>
+        <button
+          *ngIf="value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="value = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </section>
+    <section class="example-section">
+      <mat-slide-toggle [(ngModel)]="isCorrect"
+        >Odgovor je: {{ isCorrect ? "Tačno" : "Netačno" }}</mat-slide-toggle
+      >
+    </section>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>OBJAVI</button>
+    <button mat-button (click)="reset()">RESETUJ</button>
+  </mat-card-actions>
+</mat-card>

@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppState } from './app.state';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { KategorijeComponent } from './components/kategorije/kategorije.component';
 import { PitanjaEffects } from './store/pitanje.effects';
@@ -16,6 +17,7 @@ import { pitanjaReducer } from './store/pitanje.reducer';
 import { SetPitanjaComponent } from './components/set-pitanja/set-pitanja.component';
 import { PitanjeComponent } from './components/pitanje/pitanje.component';
 import { KategorijeEffects } from './store/kategorije.effects';
+import { HomeComponent } from './components/home/home.component';
 
 /* Material UI */
 import { MatSliderModule } from '@angular/material/slider';
@@ -23,18 +25,27 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { PitanjeEditorComponent } from './components/pitanje-editor/pitanje-editor.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
     AppComponent,
     PitanjeComponent,
     SetPitanjaComponent,
-    KategorijeComponent
+    KategorijeComponent,
+    HomeComponent,
+    PitanjeEditorComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     StoreModule.forRoot<AppState>({ pitanja: pitanjaReducer, kategorije: kategorijeReducer }),
     EffectsModule.forRoot([PitanjaEffects, KategorijeEffects]),
     BrowserAnimationsModule,
@@ -43,7 +54,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatButtonModule,
     MatChipsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
