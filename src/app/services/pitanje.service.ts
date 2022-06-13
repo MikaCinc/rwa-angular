@@ -17,4 +17,12 @@ export class PitanjeService {
   getAllByCategory(categoryId: number) {
     return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + `/pitanje/kategorija/${categoryId}`);
   }
+
+  publishPitanje(text: string, isCorrect: boolean, categories: number[] = []) {
+    return this.httpClient.post<IServerResponse<Pitanje>>(environment.api + `/pitanje`, { text, isCorrect, categories });
+  }
+
+  editPitanje(id: number, text: string, isCorrect: boolean, categories: number[] = []) {
+    return this.httpClient.patch<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`, { text, isCorrect, categories });
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, Observable, of } from 'rxjs';
 import { Kategorija } from 'src/app/models/kategorija';
@@ -27,7 +28,7 @@ export class PitanjeComponent implements OnInit {
   selectedKategorijaId$: Observable<number> = of(0);
   kategorije$: Observable<Kategorija[]> = of([]);
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private router: Router, private store: Store<AppState>) { }
 
   title = 'Pitanje';
 
@@ -72,4 +73,9 @@ export class PitanjeComponent implements OnInit {
       })
     );
   } */
+
+  gotoEdit() {
+    const pitanjeId = this.pitanje ? this.pitanje.id : null;
+    this.router.navigate(['/pitanje-editor', { id: pitanjeId }]);
+  }
 }

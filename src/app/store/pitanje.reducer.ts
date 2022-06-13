@@ -30,8 +30,15 @@ export const pitanjaReducer = createReducer(
   on(Actions.loadPitanjaSuccess, (state, { pitanja }) => {
     console.log("loadPitanjaSuccess", pitanja);
     return adapter.setAll(pitanja, state)
-  }
-  ),
+  }),
+  on(Actions.publishPitanjeSuccess, (state, { pitanje }) => {
+    console.log("publishPitanjeSuccess in reducer", pitanje);
+    return adapter.addOne(pitanje, state)
+  }),
+  on(Actions.editPitanjeSuccess, (state, { pitanje }) => {
+    console.log("editPitanjeSuccess in reducer", pitanje);
+    return adapter.setOne(pitanje, state)
+  }),
   /* on(Actions.rateSong, (state, { songId, rating }) =>
     adapter.updateOne(
       {

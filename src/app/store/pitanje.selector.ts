@@ -19,6 +19,10 @@ export const selectPitanjesList = createSelector(selectPitanjaFeature, (pitanja)
     .map((pitanje) => <Pitanje>pitanje)
 );
 
+export const selectPitanjesEntities = createSelector(selectPitanjaFeature, (pitanja) =>
+  pitanja.entities
+);
+
 // export const selectPitanjesDict = createSelector(
 //     selectPitanjaFeature,
 //     (pitanja) => pitanja.list

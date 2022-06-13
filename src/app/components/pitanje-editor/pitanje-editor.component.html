@@ -46,7 +46,7 @@
     </section>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>OBJAVI</button>
+    <button mat-button [disabled]="value.length < 3" (click)="publish()">OBJAVI</button>
     <button mat-button (click)="reset()">RESETUJ</button>
   </mat-card-actions>
 </mat-card>
