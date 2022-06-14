@@ -22,4 +22,34 @@ export class KategorijeEffects {
       )
     )
   );
+  publishKategorija$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(KategorijaActions.publishKategorija),
+      mergeMap(({ name }) =>
+        this.kategorijaService.publishKategorija(name).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno kreiranje kategorije");
+          }),
+          map((kategorija) => KategorijaActions.publishKategorijaSuccess({ kategorija })),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
+  editKategorija$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(KategorijaActions.editKategorija),
+      mergeMap(({ id, name }) =>
+        this.kategorijaService.editKategorija(id, name).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno ažuriranje kategorije");
+          }),
+          map((kategorija) => KategorijaActions.editKategorijaSuccess({ kategorija })),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
 }

@@ -31,6 +31,7 @@ import { PitanjeEditorComponent } from './components/pitanje-editor/pitanje-edit
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
+import { KategorijaEditorComponent } from './components/kategorija-editor/kategorija-editor.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MatDividerModule } from '@angular/material/divider';
     SetPitanjaComponent,
     KategorijeComponent,
     HomeComponent,
-    PitanjeEditorComponent
+    PitanjeEditorComponent,
+    KategorijaEditorComponent
   ],
   imports: [
     BrowserModule,

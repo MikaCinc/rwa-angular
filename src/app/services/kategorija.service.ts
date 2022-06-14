@@ -13,4 +13,13 @@ export class KategorijaService {
   getAll() {
     return this.httpClient.get<IServerResponse<Kategorija[]>>(environment.api + '/kategorija');
   }
+  getSingle(id: number) {
+    return this.httpClient.get<IServerResponse<Kategorija>>(environment.api + `/kategorija/${id}`);
+  }
+  publishKategorija(name: string) {
+    return this.httpClient.post<IServerResponse<Kategorija>>(environment.api + `/kategorija`, { name });
+  }
+  editKategorija(id: number, name: string) {
+    return this.httpClient.patch<IServerResponse<Kategorija>>(environment.api + `/kategorija/${id}`, { name });
+  }
 }

@@ -2,17 +2,17 @@ import { createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { Kategorija } from '../models/kategorija';
 
-export const selectPitanjaFeature = createSelector(
+export const selectKategorijeFeature = createSelector(
   (state: AppState) => state.kategorije,
   (kategorije) => kategorije
 );
 
 export const selectKategorijaIds = createSelector(
-  selectPitanjaFeature,
+  selectKategorijeFeature,
   (kategorije) => kategorije.ids
 );
 
-export const selectKategorijasList = createSelector(selectPitanjaFeature, (kategorije) =>
+export const selectKategorijasList = createSelector(selectKategorijeFeature, (kategorije) =>
   kategorije.ids
     .map((id) => kategorije.entities[id])
     .filter((kategorija) => kategorija != null)
@@ -20,17 +20,17 @@ export const selectKategorijasList = createSelector(selectPitanjaFeature, (kateg
 );
 
 // export const selectKategorijasDict = createSelector(
-//     selectPitanjaFeature,
+//     selectKategorijeFeature,
 //     (kategorije) => kategorije.list
 // )
 
 export const selectSelectedKategorijaId = createSelector(
-  selectPitanjaFeature,
+  selectKategorijeFeature,
   (kategorije) => kategorije.selectedKategorija
 );
 
 export const selectSelectedKategorija = createSelector(
-  selectPitanjaFeature,
+  selectKategorijeFeature,
   selectSelectedKategorijaId,
   (kategorije, kategorijaId) => kategorije.entities[kategorijaId]
 );
