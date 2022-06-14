@@ -31,6 +31,10 @@ export const pitanjaReducer = createReducer(
     console.log("loadPitanjaSuccess", pitanja);
     return adapter.setAll(pitanja, state)
   }),
+  on(Actions.loadSinglePitanjeSuccess, (state, { pitanje }) => {
+    console.log("loadSinglePitanjeSuccess", pitanje);
+    return adapter.setOne(pitanje, state)
+  }),
   on(Actions.publishPitanjeSuccess, (state, { pitanje }) => {
     console.log("publishPitanjeSuccess in reducer", pitanje);
     return adapter.addOne(pitanje, state)

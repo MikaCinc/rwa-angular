@@ -22,6 +22,21 @@ export class PitanjaEffects {
       )
     )
   );
+  loadSinglePitanje$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PitanjeActions.loadSinglePitanje),
+      mergeMap(({id}) =>
+        this.pitanjeService.getSingle(id).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
+          }),
+          map((pitanje) => PitanjeActions.loadSinglePitanjeSuccess({ pitanje })),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
   loadPitanjaByCategory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PitanjeActions.loadPitanjaByCategory),

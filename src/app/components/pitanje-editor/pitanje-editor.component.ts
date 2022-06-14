@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of, Subscription, switchMap } from 'rxjs';
 import { AppState } from 'src/app/app.state';
 import { Kategorija } from 'src/app/models/kategorija';
 import { Pitanje } from 'src/app/models/pitanje';
 import { loadKategorije } from 'src/app/store/kategorije.action';
 import { selectKategorijasList } from 'src/app/store/kategorije.selector';
-import { editPitanje, publishPitanje, selectPitanje } from 'src/app/store/pitanje.action';
+import { editPitanje, loadSinglePitanje, publishPitanje, selectPitanje } from 'src/app/store/pitanje.action';
 import { selectSelectedPitanje, selectSelectedPitanjeId } from 'src/app/store/pitanje.selector';
 
 @Component({
@@ -19,6 +19,7 @@ export class PitanjeEditorComponent implements OnInit {
   isEdit: boolean = false;
   pitanjeIdToEdit: number = -1;
   pitanjeToEdit$: Observable<Pitanje | undefined> = of(undefined);
+  pitanjeToEditSubscription$: Subscription = new Subscription;
 
   value = '';
   isCorrect = true;
@@ -39,17 +40,18 @@ export class PitanjeEditorComponent implements OnInit {
     this.store.dispatch(selectPitanje({ pitanjeId: paramId }));
     console.log("paramId", paramId);
 
-    const pitanje = this.store.select(selectSelectedPitanje);
-    pitanje.subscribe(x => {
-      console.log("hererer", x); // @todo: unsubscribe
+    this.pitanjeToEdit$ = this.store.select(selectSelectedPitanje);
+    this.pitanjeToEditSubscription$ = this.pitanjeToEdit$.subscribe(x => {
+      console.log("hererer", x);
+      if (!x) {
+        this.store.dispatch(loadSinglePitanje({ id: paramId }));
+      }
 
       if (!x || !x.id || x.id !== this.pitanjeIdToEdit) return;
       this.isCorrect = x.isCorrect;
       this.value = x.text;
       this.categories = x.categories;
     });
-
-    this.pitanjeToEdit$ = pitanje;
 
     // edit
     /* this.pitanjeToEdit$ = this.route.paramMap.pipe(
@@ -69,6 +71,10 @@ export class PitanjeEditorComponent implements OnInit {
         return pitanje;
       })
     ); */
+  }
+
+  ngOnDestroy() {
+    this.pitanjeToEditSubscription$.unsubscribe();
   }
 
   izborKategorije(kategorija: Kategorija) {

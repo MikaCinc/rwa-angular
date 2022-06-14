@@ -14,6 +14,10 @@ export class PitanjeService {
     return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + '/pitanje');
   }
 
+  getSingle(id: number) {
+    return this.httpClient.get<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`);
+  }
+
   getAllByCategory(categoryId: number) {
     return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + `/pitanje/kategorija/${categoryId}`);
   }

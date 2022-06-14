@@ -10,6 +10,14 @@ export const loadPitanjaSuccess = createAction(
   'Load Pitanja Success',
   props<{ pitanja: Pitanje[] }>()
 );
+export const loadSinglePitanje = createAction(
+  'Load single pitanje',
+  props<{ id: number }>()
+);
+export const loadSinglePitanjeSuccess = createAction(
+  'Load single pitanje success',
+  props<{ pitanje: Pitanje }>()
+);
 export const selectPitanje = createAction(
   'Select pitanje',
   props<{ pitanjeId: number }>()
