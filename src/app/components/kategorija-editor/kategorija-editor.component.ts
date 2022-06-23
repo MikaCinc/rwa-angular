@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Store } from '@ngrx/store';
-import { map, Observable, of, Subscription, take, startWith, firstValueFrom } from 'rxjs';
+import { map, Observable, of, Subscription, take, startWith, firstValueFrom, takeUntil, takeLast } from 'rxjs';
 import { AppState } from 'src/app/app.state';
 import { Kategorija } from 'src/app/models/kategorija';
 import { editKategorija, loadKategorije, loadSingleKategorija, publishKategorija, selectKategorija } from 'src/app/store/kategorije.action';
@@ -43,8 +43,8 @@ export class KategorijaEditorComponent implements OnInit {
   }
 
   private _filter(value: string): Kategorija[] {
-    console.log("filter", value, this.allKategorije);
-    
+    if (!value) return this.allKategorije;
+
     const filterValue = value.toLowerCase();
 
     return this.allKategorije.filter(cat => cat.name.toLowerCase().includes(filterValue));
@@ -53,22 +53,18 @@ export class KategorijaEditorComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(loadKategorije());
     this.kategorije$ = this.store.select(selectKategorijasList);
-    this.kategorije$.pipe(take(1)).subscribe(x => {
+    this.kategorije$.pipe(take(2)).subscribe(x => {
       this.allKategorije = x;
-      this.filteredKategorije$
-    }).unsubscribe();
+    });
 
     const paramId = Number(this.route.snapshot.paramMap.get('id')) || -1;
     console.log("paramId", paramId);
 
     this.kategorijaToEdit$ = this.store.select(selectSelectedKategorija);
     this.kategorijaToEditSubscription$ = this.kategorijaToEdit$.subscribe(x => {
-      console.log("hererer kat", x);
       if (!x) {
         this.store.dispatch(loadSingleKategorija({ id: paramId }));
       }
-
-      console.log(x?.id, x?.name, this.kategorijaIdToEdit);
 
       if (!x || !x.id || x.id !== this.kategorijaIdToEdit) return;
       this.value = x.name;
