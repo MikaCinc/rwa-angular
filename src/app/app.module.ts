@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppState } from './app.state';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { KategorijeComponent } from './components/kategorije/kategorije.component';
 import { PitanjaEffects } from './store/pitanje.effects';
@@ -32,6 +32,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { KategorijaEditorComponent } from './components/kategorija-editor/kategorija-editor.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { KategorijaEditorComponent } from './components/kategorija-editor/katego
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     StoreModule.forRoot<AppState>({ pitanja: pitanjaReducer, kategorije: kategorijeReducer }),
     EffectsModule.forRoot([PitanjaEffects, KategorijeEffects]),
     BrowserAnimationsModule,
@@ -61,7 +64,9 @@ import { KategorijaEditorComponent } from './components/kategorija-editor/katego
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTabsModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
