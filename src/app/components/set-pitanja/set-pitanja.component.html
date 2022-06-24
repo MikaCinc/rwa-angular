@@ -1,11 +1,22 @@
 <h2>{{ title }}</h2>
 <div class="settings">
-  <mat-slide-toggle
-    aria-label="isCyclingQuestions"
-    [(ngModel)]="isCyclingQuestions"
-    >Rešeno pitanje ide na kraj: {{ isCyclingQuestions ? "Da" : "Ne" }}
-    <!-- color="primary" -->
-  </mat-slide-toggle>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Podešavanja </mat-panel-title>
+        <mat-panel-description>
+          Rotirajuća pitanja
+          {{ isCyclingQuestions ? "uključena" : "isključena" }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle
+        aria-label="isCyclingQuestions"
+        [(ngModel)]="isCyclingQuestions"
+        >Rešeno pitanje ide na kraj: {{ isCyclingQuestions ? "Da" : "Ne" }}
+        <!-- color="primary" -->
+      </mat-slide-toggle>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 <div *ngFor="let pitanje of pitanja$ | async" class="setPitanjaListContainer">
   <!-- (click)="selectPitanje(pitanje, true)" -->
