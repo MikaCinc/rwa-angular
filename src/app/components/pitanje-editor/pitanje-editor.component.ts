@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription, switchMap } from 'rxjs';
@@ -27,7 +28,7 @@ export class PitanjeEditorComponent implements OnInit {
 
   kategorije$: Observable<Kategorija[]> = of([]);
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) { }
+  constructor(private route: ActivatedRoute, private store: Store<AppState>, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadKategorije());
