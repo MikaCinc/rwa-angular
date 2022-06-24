@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { Observable, of, filter, map } from 'rxjs';
+import { Observable, of, filter, map, switchMap, concatMap } from 'rxjs';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
 import { loadPitanja, selectPitanje } from '../../store/pitanje.action';
@@ -19,7 +19,8 @@ export class SetPitanjaComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private _snackBar: MatSnackBar) { }
 
-  title = 'Set pitanja';
+  title: string = 'Set pitanja';
+  isCyclingQuestions: boolean = true;
 
   ngOnInit(): void {
     this.store.dispatch(loadPitanja());
@@ -38,7 +39,13 @@ export class SetPitanjaComponent implements OnInit {
     });
 
     this.pitanja$ =
-      this.pitanja$.pipe(map(pitanja => pitanja.filter(p => p.id !== ePitanje.id)));
+      this.pitanja$.pipe(map(pitanja => {
+        if (this.isCyclingQuestions) {
+          return [...pitanja.filter(p => p.id !== ePitanje.id), ePitanje]
+        } else {
+          return [...pitanja.filter(p => p.id !== ePitanje.id)]
+        }
+      }));
   }
 
   selectPitanje(pitanje: Pitanje, answer: boolean) {

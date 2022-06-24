@@ -1,5 +1,5 @@
 <!-- [className]="pitanje.isCorrect ? 'correctContainer' : 'incorrectContainer'" -->
-<mat-card *ngIf="pitanje">
+<mat-card *ngIf="pitanje" class="pitanjeContainer mat-elevation-z4">
   <mat-card-title>{{ pitanje.text }}</mat-card-title>
   <mat-card-subtitle
     >{{ pitanje.dateUpdated }} -- {{ pitanje.dateCreated }}</mat-card-subtitle

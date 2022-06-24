@@ -1,9 +1,16 @@
 <h2>{{ title }}</h2>
-<p>set pitanja works!</p>
-<ul *ngFor="let pitanje of pitanja$ | async">
+<div class="settings">
+  <mat-slide-toggle
+    aria-label="isCyclingQuestions"
+    [(ngModel)]="isCyclingQuestions"
+    >Rešeno pitanje ide na kraj: {{ isCyclingQuestions ? "Da" : "Ne" }}
+    <!-- color="primary" -->
+  </mat-slide-toggle>
+</div>
+<div *ngFor="let pitanje of pitanja$ | async" class="setPitanjaListContainer">
   <!-- (click)="selectPitanje(pitanje, true)" -->
   <app-pitanje
     [pitanje]="pitanje"
     (submit)="submitAnswer($event)"
   ></app-pitanje>
-</ul>
+</div>
