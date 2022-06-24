@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { Observable, of, filter, map, switchMap, concatMap } from 'rxjs';
+import { Observable, of, filter, map, switchMap, concatMap, delay } from 'rxjs';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
 import { loadPitanja, selectPitanje } from '../../store/pitanje.action';
@@ -24,7 +24,7 @@ export class SetPitanjaComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadPitanja());
-    this.pitanja$ = this.store.select(selectPitanjesList);
+    this.pitanja$ = this.store.select(selectPitanjesList).pipe(delay(200));
   }
 
   submitAnswer(ePitanje: PitanjeValidacija) {

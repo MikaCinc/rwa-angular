@@ -1,5 +1,5 @@
 <div class="categoryEditorContainer">
-  <mat-card class="example-card mat-elevation-z10">
+  <mat-card class="mainCard mat-elevation-z10">
     <mat-card-content>
       <mat-tab-group
         dynamicHeight
@@ -12,7 +12,7 @@
             <mat-icon class="example-tab-icon">add</mat-icon>
             Kreiraj kategoriju
           </ng-template>
-          <mat-card-title>{{
+          <mat-card-title class="tabTitleMargin">{{
             isEdit ? "Izmeni kategoriju" : "Kreiraj novu kategoriju"
           }}</mat-card-title>
           <mat-card-subtitle
@@ -25,7 +25,7 @@
             <mat-icon class="example-tab-icon">edit</mat-icon>
             Izmeni kategoriju
           </ng-template>
-          <mat-card-title>{{
+          <mat-card-title class="tabTitleMargin">{{
             isEdit ? "Izmeni kategoriju" : "Kreiraj novu kategoriju"
           }}</mat-card-title>
           <mat-card-subtitle

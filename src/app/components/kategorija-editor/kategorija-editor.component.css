@@ -6,3 +6,11 @@
     width: 100%;
     height: calc(100% - 64px);
 }
+
+.mainCard {
+    width: 500px;
+}
+
+.tabTitleMargin {
+    margin-top: 20px;
+}
