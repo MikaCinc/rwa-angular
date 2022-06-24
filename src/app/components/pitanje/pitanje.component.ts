@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, Observable, of } from 'rxjs';
@@ -20,6 +22,8 @@ export interface PitanjeValidacija extends Pitanje {
   styleUrls: ['./pitanje.component.css']
 })
 export class PitanjeComponent implements OnInit {
+  @ViewChild('menuTrigger')
+  menuTrigger!: MatMenuTrigger;
   @Input() pitanje: Pitanje | null = null;
   // @Output() onClick: EventEmitter<Pitanje> = new EventEmitter<Pitanje>();
   @Output() submit: EventEmitter<PitanjeValidacija> = new EventEmitter<PitanjeValidacija>();
@@ -28,9 +32,10 @@ export class PitanjeComponent implements OnInit {
   selectedKategorijaId$: Observable<number> = of(0);
   kategorije$: Observable<Kategorija[]> = of([]);
 
-  constructor(private router: Router, private store: Store<AppState>) { }
+  constructor(private router: Router, private store: Store<AppState>, public dialog: MatDialog) { }
 
   title = 'Pitanje';
+  datumKreiranja = "";
 
   ngOnInit(): void {
     /* this.store.dispatch(loadPitanja());
@@ -39,6 +44,9 @@ export class PitanjeComponent implements OnInit {
       map(all => all.filter(single => this.pitanje?.categories.includes(single.id)))
     );
     this.selectedKategorijaId$ = this.store.select(selectSelectedKategorijaId);
+
+    this.datumKreiranja = new Date(this.pitanje?.dateCreated || "").toLocaleString();
+
   }
 
   validacija(guess: boolean) {
@@ -78,4 +86,31 @@ export class PitanjeComponent implements OnInit {
     const pitanjeId = this.pitanje ? this.pitanje.id : null;
     this.router.navigate(['/pitanje-editor', { id: pitanjeId }]);
   }
+
+  openInfoDialog() {
+    const dialogRef = this.dialog.open(InfoDialog, {
+      restoreFocus: false,
+      data: {
+        dateCreated: new Date(this.pitanje?.dateCreated || "").toLocaleString(),
+        dateUpdated: new Date(this.pitanje?.dateUpdated || "").toLocaleString(),
+      },
+    });
+
+    // Manually restore focus to the menu trigger since the element that
+    // opens the dialog won't be in the DOM any more when the dialog closes.
+    dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
+  }
+}
+
+export interface InfoDialogData {
+  dateCreated: string;
+  dateUpdated: string;
+}
+
+@Component({
+  selector: 'dialog-from-menu-dialog',
+  templateUrl: 'info-dialog.html',
+})
+export class InfoDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: InfoDialogData) { }
 }

@@ -15,7 +15,7 @@ import { PitanjaEffects } from './store/pitanje.effects';
 import { kategorijeReducer } from './store/kategorije.reducer';
 import { pitanjaReducer } from './store/pitanje.reducer';
 import { SetPitanjaComponent } from './components/set-pitanja/set-pitanja.component';
-import { PitanjeComponent } from './components/pitanje/pitanje.component';
+import { PitanjeComponent, InfoDialog } from './components/pitanje/pitanje.component';
 import { KategorijeEffects } from './store/kategorije.effects';
 import { HomeComponent } from './components/home/home.component';
 
@@ -36,11 +36,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     PitanjeComponent,
+    InfoDialog,
     SetPitanjaComponent,
     KategorijeComponent,
     HomeComponent,
@@ -70,7 +73,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatTabsModule,
     MatAutocompleteModule,
     MatSidenavModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

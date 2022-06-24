@@ -2,7 +2,7 @@
 <mat-card *ngIf="pitanje" class="pitanjeContainer mat-elevation-z4">
   <mat-card-title>{{ pitanje.text }}</mat-card-title>
   <mat-card-subtitle
-    >{{ pitanje.dateUpdated }} -- {{ pitanje.dateCreated }}</mat-card-subtitle
+    >{{ datumKreiranja }}</mat-card-subtitle
   >
   <mat-chip-list aria-label="Izbor kategorija u okviru pitanja">
     <mat-chip
@@ -15,10 +15,33 @@
       >{{ kategorija.name }}</mat-chip
     >
   </mat-chip-list>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="gotoEdit()">
+      <mat-icon>edit</mat-icon>
+      <span>Izmeni</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>delete</mat-icon>
+      <span>Izbriši</span>
+    </button>
+    <button mat-menu-item (click)="openInfoDialog()">
+      <mat-icon>info</mat-icon>
+      <span>Informacije</span>
+    </button>
+  </mat-menu>
+
   <mat-card-actions>
     <button mat-button (click)="validacija(true)">Tačno</button>
     <button mat-button (click)="validacija(false)">Netačno</button>
     <button mat-button (click)="gotoEdit()">Edit</button>
+    <button
+      #menuTrigger
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
   </mat-card-actions>
   <!-- {{ pitanje.dateUpdated }} -- {{ pitanje.dateCreated }} -->
   <!-- <p>{{ pitanje.text }}</p> -->
