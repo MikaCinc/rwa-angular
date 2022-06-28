@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { PitanjeService } from '../services/pitanje.service';
@@ -6,7 +7,12 @@ import * as PitanjeActions from './pitanje.action';
 
 @Injectable()
 export class PitanjaEffects {
-  constructor(private actions$: Actions, private pitanjeService: PitanjeService) { }
+  constructor(
+    private actions$: Actions,
+    private pitanjeService: PitanjeService,
+    private _snackBar: MatSnackBar
+  ) { }
+
   loadPitanja$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PitanjeActions.loadPitanja),
@@ -16,7 +22,9 @@ export class PitanjaEffects {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
           }),
-          map((pitanja) => PitanjeActions.loadPitanjaSuccess({ pitanja })),
+          map((pitanja) => {
+            return PitanjeActions.loadPitanjaSuccess({ pitanja })
+          }),
           catchError(() => of({ type: 'load error' }))
         )
       )
@@ -25,7 +33,7 @@ export class PitanjaEffects {
   loadSinglePitanje$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PitanjeActions.loadSinglePitanje),
-      mergeMap(({id}) =>
+      mergeMap(({ id }) =>
         this.pitanjeService.getSingle(id).pipe(
           map((res) => {
             if (res.success && res.data) return res.data;
@@ -61,7 +69,10 @@ export class PitanjaEffects {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno kreiranje pitanja");
           }),
-          map((pitanje) => PitanjeActions.publishPitanjeSuccess({ pitanje })),
+          map((pitanje) => {
+            this._snackBar.open("Uspešno kreirano pitanje!", "Zatvori", { duration: 3000 });
+            return PitanjeActions.publishPitanjeSuccess({ pitanje });
+          }),
           catchError(() => of({ type: 'load error' }))
         )
       )
@@ -76,7 +87,10 @@ export class PitanjaEffects {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno ažuriranje pitanja");
           }),
-          map((pitanje) => PitanjeActions.editPitanjeSuccess({ pitanje })),
+          map((pitanje) => {
+            this._snackBar.open("Uspešno ažurirano pitanje!", "Zatvori", { duration: 3000 });
+            return PitanjeActions.editPitanjeSuccess({ pitanje });
+          }),
           catchError(() => of({ type: 'load error' }))
         )
       )

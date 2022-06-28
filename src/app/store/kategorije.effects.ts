@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { KategorijaService } from '../services/kategorija.service';
@@ -6,7 +7,12 @@ import * as KategorijaActions from './kategorije.action';
 
 @Injectable()
 export class KategorijeEffects {
-  constructor(private actions$: Actions, private kategorijaService: KategorijaService) { }
+  constructor(
+    private actions$: Actions,
+    private kategorijaService: KategorijaService,
+    private _snackBar: MatSnackBar
+  ) { }
+  
   loadKategorije$ = createEffect(() =>
     this.actions$.pipe(
       ofType(KategorijaActions.loadKategorije),
@@ -31,7 +37,10 @@ export class KategorijeEffects {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno kreiranje kategorije");
           }),
-          map((kategorija) => KategorijaActions.publishKategorijaSuccess({ kategorija })),
+          map((kategorija) => {
+            this._snackBar.open("Uspešno kreirana kategorija!", "Zatvori", { duration: 3000 });
+            return KategorijaActions.publishKategorijaSuccess({ kategorija })
+          }),
           catchError(() => of({ type: 'load error' }))
         )
       )
@@ -46,7 +55,10 @@ export class KategorijeEffects {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno ažuriranje kategorije");
           }),
-          map((kategorija) => KategorijaActions.editKategorijaSuccess({ kategorija })),
+          map((kategorija) => {
+            this._snackBar.open("Uspešno ažurirana kategorija!", "Zatvori", { duration: 3000 });
+            return KategorijaActions.editKategorijaSuccess({ kategorija })
+          }),
           catchError(() => of({ type: 'load error' }))
         )
       )
