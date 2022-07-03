@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
+import { loginUser } from 'src/app/store/user.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -27,12 +28,12 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    /* this.store.dispatch(login({
+    this.store.dispatch(loginUser({
       username: this.username,
       password: this.password
-    })); */
+    }));
 
-    fetch(environment.api + `/auth/login`, {
+    /* fetch(environment.api + `/auth/login`, {
       method: 'POST',
       // credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -55,7 +56,7 @@ export class LoginComponent implements OnInit {
             panelClass: [`snack-error`]
           });
         }
-      })
+      }) */
   }
 
 }
