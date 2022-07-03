@@ -104,5 +104,10 @@
       }
     }
   },
-  "defaultProject": "17743-pitanja"
+  "defaultProject": "17743-pitanja",
+  "cli": {
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
+  }
 }

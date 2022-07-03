@@ -21,6 +21,7 @@ export class SetPitanjaComponent implements OnInit {
 
   title: string = 'Set pitanja';
   isCyclingQuestions: boolean = true;
+  isFocusMode: boolean = false;
 
   ngOnInit(): void {
     this.store.dispatch(loadPitanja());

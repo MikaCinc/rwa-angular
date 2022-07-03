@@ -39,6 +39,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     KategorijeComponent,
     HomeComponent,
     PitanjeEditorComponent,
-    KategorijaEditorComponent
+    KategorijaEditorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

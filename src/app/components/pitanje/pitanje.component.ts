@@ -25,6 +25,7 @@ export class PitanjeComponent implements OnInit {
   @ViewChild('menuTrigger')
   menuTrigger!: MatMenuTrigger;
   @Input() pitanje: Pitanje | null = null;
+  @Input() isFocusMode: boolean = false;
   // @Output() onClick: EventEmitter<Pitanje> = new EventEmitter<Pitanje>();
   @Output() submit: EventEmitter<PitanjeValidacija> = new EventEmitter<PitanjeValidacija>();
   // pitanje$: Observable<Pitanje> = of();

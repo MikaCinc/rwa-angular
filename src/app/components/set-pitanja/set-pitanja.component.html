@@ -16,12 +16,26 @@
         <!-- color="primary" -->
       </mat-slide-toggle>
     </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Focus mode </mat-panel-title>
+        <mat-panel-description>
+          Focus mode je
+          {{ isFocusMode ? "uključen" : "isključen" }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle aria-label="isFocusMode" [(ngModel)]="isFocusMode"
+        >Fokusirano rešavanje: {{ isFocusMode ? "Da" : "Ne" }}
+        <!-- color="primary" -->
+      </mat-slide-toggle>
+    </mat-expansion-panel>
   </mat-accordion>
 </div>
 <div *ngFor="let pitanje of pitanja$ | async" class="setPitanjaListContainer">
   <!-- (click)="selectPitanje(pitanje, true)" -->
   <app-pitanje
     [pitanje]="pitanje"
+    [isFocusMode]="isFocusMode"
     (submit)="submitAnswer($event)"
   ></app-pitanje>
 </div>

@@ -44,7 +44,8 @@
         mat-icon-button
         class="example-icon person-icon"
         aria-label="Example icon-button with person icon"
-        >
+        [matMenuTriggerFor]="accountMenu"
+      >
         <mat-icon>account_circle</mat-icon>
       </button>
       <button
@@ -55,6 +56,21 @@
         <mat-icon>share_outline</mat-icon>
       </button>
     </mat-toolbar>
+
+    <mat-menu #accountMenu="matMenu">
+      <button mat-menu-item routerLink="login">
+        <mat-icon>login</mat-icon>
+        <span>Prijavi se</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>logout</mat-icon>
+        <span>Odjavi se</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>stars</mat-icon>
+        <span>Favoriti</span>
+      </button>
+    </mat-menu>
 
     <router-outlet></router-outlet>
   </div>

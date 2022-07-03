@@ -1,8 +1,13 @@
 <!-- [className]="pitanje.isCorrect ? 'correctContainer' : 'incorrectContainer'" -->
 <mat-card *ngIf="pitanje" class="pitanjeContainer mat-elevation-z4">
   <mat-card-title>{{ pitanje.text }}</mat-card-title>
-  <mat-card-subtitle>{{ datumKreiranja }}</mat-card-subtitle>
-  <mat-chip-list aria-label="Izbor kategorija u okviru pitanja">
+  <mat-card-subtitle *ngIf="!isFocusMode">{{
+    datumKreiranja
+  }}</mat-card-subtitle>
+  <mat-chip-list
+    *ngIf="!isFocusMode"
+    aria-label="Izbor kategorija u okviru pitanja"
+  >
     <mat-chip
       *ngFor="let kategorija of kategorije$ | async"
       color="primary"
@@ -37,12 +42,12 @@
       <mat-icon>cancel</mat-icon>
       <span>Netačno</span>
     </button>
-    <button mat-button (click)="gotoEdit()">Edit</button>
     <button
       #menuTrigger
       mat-icon-button
       [matMenuTriggerFor]="menu"
       aria-label="Example icon-button with a menu"
+      *ngIf="!isFocusMode"
     >
       <mat-icon>more_vert</mat-icon>
     </button>
