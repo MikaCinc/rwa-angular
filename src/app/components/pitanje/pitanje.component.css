@@ -20,3 +20,7 @@
     min-width: 400px;
     /* width: fit-content; */
 }
+
+.centeredTitle {
+    text-align: center !important;
+}
