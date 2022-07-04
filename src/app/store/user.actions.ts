@@ -33,6 +33,10 @@ export const getProfileSuccess = createAction(
   props<{ user: User }>()
 );
 
+export const logout = createAction(
+  'logout'
+);
+
 export const addUser = createAction(
   '[User/API] Add User',
   props<{ user: User }>()

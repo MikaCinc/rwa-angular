@@ -27,4 +27,7 @@ export const userReducer = createReducer(
   on(UserActions.getProfileSuccess,
     (state, action) => ({ ...state, user: action.user })
   ),
+  on(UserActions.logout,
+    (state, action) => ({ ...state, user: null, accessToken: '' })
+  ),
 );

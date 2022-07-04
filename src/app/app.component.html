@@ -58,11 +58,11 @@
     </mat-toolbar>
 
     <mat-menu #accountMenu="matMenu">
-      <button mat-menu-item routerLink="login">
+      <button mat-menu-item routerLink="login" [disabled]="(user$ | async)?.id">
         <mat-icon>login</mat-icon>
         <span>Prijavi se</span>
       </button>
-      <button mat-menu-item disabled>
+      <button mat-menu-item [disabled]="!(user$ | async)?.id" (click)="handleLogout()">
         <mat-icon>logout</mat-icon>
         <span>Odjavi se</span>
       </button>
