@@ -19,6 +19,7 @@ import { PitanjeComponent, InfoDialog } from './components/pitanje/pitanje.compo
 import { KategorijeEffects } from './store/kategorije.effects';
 import { HomeComponent } from './components/home/home.component';
 import { UserEffects } from './store/user.effects';
+import { userReducer } from './store/user.reducer';
 
 /* Material UI */
 import { MatSliderModule } from '@angular/material/slider';
@@ -60,7 +61,7 @@ import { LoginComponent } from './components/login/login.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot<AppState>({ pitanja: pitanjaReducer, kategorije: kategorijeReducer }),
+    StoreModule.forRoot<AppState>({ pitanja: pitanjaReducer, kategorije: kategorijeReducer, user: userReducer }),
     EffectsModule.forRoot([PitanjaEffects, KategorijeEffects, UserEffects]),
     BrowserAnimationsModule,
     /* Material UI */

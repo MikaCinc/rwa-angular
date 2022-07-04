@@ -18,6 +18,21 @@ export const loginSuccess = createAction(
   props<{ data: LoginUser }>()
 );
 
+export const setTokenFromStorage = createAction(
+  'setTokenFromStorage',
+  props<{ token: string }>()
+);
+
+export const getProfile = createAction(
+  'getProfile',
+  props<{ token: string }>()
+);
+
+export const getProfileSuccess = createAction(
+  'getProfileSuccess',
+  props<{ user: User }>()
+);
+
 export const addUser = createAction(
   '[User/API] Add User',
   props<{ user: User }>()
