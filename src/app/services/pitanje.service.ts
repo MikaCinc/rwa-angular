@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IServerResponse } from '../interfaces/serverResponse';
@@ -28,5 +28,18 @@ export class PitanjeService {
 
   editPitanje(id: number, text: string, isCorrect: boolean, categories: number[] = []) {
     return this.httpClient.patch<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`, { text, isCorrect, categories });
+  }
+
+  deletePitanje(id: number, token: string) {
+    var headers_object = new HttpHeaders({
+      'Authorization': "Bearer " + token,
+      'Content-Type': 'application/json',
+    });
+
+    const httpOptions = {
+      headers: headers_object,
+    };
+
+    return this.httpClient.delete<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`, httpOptions);
   }
 }

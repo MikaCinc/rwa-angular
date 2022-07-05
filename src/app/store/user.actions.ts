@@ -30,7 +30,7 @@ export const getProfile = createAction(
 
 export const getProfileSuccess = createAction(
   'getProfileSuccess',
-  props<{ user: User }>()
+  props<{ user: User, token: string }>()
 );
 
 export const logout = createAction(

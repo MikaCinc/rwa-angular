@@ -21,11 +21,8 @@ export const userReducer = createReducer(
   on(UserActions.loginSuccess,
     (state, action) => ({ ...state, accessToken: action.data.access_token, user: action.data.user })
   ),
-  on(UserActions.setTokenFromStorage,
-    (state, action) => ({ ...state, accessToken: action.token })
-  ),
   on(UserActions.getProfileSuccess,
-    (state, action) => ({ ...state, user: action.user })
+    (state, action) => ({ ...state, accessToken: action.token, user: action.user })
   ),
   on(UserActions.logout,
     (state, action) => ({ ...state, user: null, accessToken: '' })

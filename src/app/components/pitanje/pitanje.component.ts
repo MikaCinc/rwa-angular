@@ -3,13 +3,15 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter, map, Observable, of } from 'rxjs';
+import { filter, map, Observable, of, take } from 'rxjs';
 import { Kategorija } from 'src/app/models/kategorija';
+import { User } from 'src/app/models/user';
 import { selectKategorija } from 'src/app/store/kategorije.action';
 import { selectKategorijasList, selectSelectedKategorijaId } from 'src/app/store/kategorije.selector';
+import { selectUser } from 'src/app/store/user.selector';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
-import { loadPitanja, loadPitanjaByCategory, selectPitanje } from '../../store/pitanje.action';
+import { deletePitanje, loadPitanja, loadPitanjaByCategory, selectPitanje } from '../../store/pitanje.action';
 import { selectPitanjesList } from '../../store/pitanje.selector';
 
 export interface PitanjeValidacija extends Pitanje {
@@ -32,6 +34,7 @@ export class PitanjeComponent implements OnInit {
 
   selectedKategorijaId$: Observable<number> = of(0);
   kategorije$: Observable<Kategorija[]> = of([]);
+  user$: Observable<User | null> = of(null);
 
   constructor(private router: Router, private store: Store<AppState>, public dialog: MatDialog) { }
 
@@ -48,6 +51,7 @@ export class PitanjeComponent implements OnInit {
 
     this.datumKreiranja = new Date(this.pitanje?.dateCreated || "").toLocaleString();
 
+    this.user$ = this.store.select(selectUser);
   }
 
   validacija(guess: boolean) {
@@ -86,6 +90,20 @@ export class PitanjeComponent implements OnInit {
   gotoEdit() {
     const pitanjeId = this.pitanje ? this.pitanje.id : null;
     this.router.navigate(['/pitanje-editor', { id: pitanjeId }]);
+  }
+
+  getToken(): string {
+    let token;
+
+    this.store.pipe(take(1)).subscribe(s => token = s.user.accessToken);
+
+    return token || "";
+  }
+
+  handleDelete() {
+    if (!this.pitanje) return;
+
+    this.store.dispatch(deletePitanje({ id: this.pitanje.id, token: this.getToken() }));
   }
 
   openInfoDialog() {

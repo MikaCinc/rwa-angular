@@ -30,6 +30,7 @@ export class UserEffects {
             this._snackBar.open(`Uspešno ulogovan ${data.user.username}!`, "Zatvori", { duration: 3000 });
             this.router.navigate(['/']);
             localStorage.setItem('token', data.access_token);
+            UserActions.setTokenFromStorage({ token: data.access_token });
             return UserActions.loginSuccess({ data });
           }),
           catchError(() => of({ type: 'login error' }))
@@ -51,7 +52,7 @@ export class UserEffects {
             console.log("/me", user);
 
             this._snackBar.open(`Uspešno ulogovan ${user.username}!`, "Zatvori", { duration: 3000 });
-            return UserActions.getProfileSuccess({ user });
+            return UserActions.getProfileSuccess({ user, token });
           }),
           catchError(() => of({ type: 'login error' }))
         )

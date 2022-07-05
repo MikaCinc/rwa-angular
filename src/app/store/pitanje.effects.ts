@@ -96,4 +96,22 @@ export class PitanjaEffects {
       )
     )
   );
+  deletePitanje$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PitanjeActions.deletePitanje),
+      mergeMap(({ id, token }) =>
+        this.pitanjeService.deletePitanje(id, token).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno izbrisano pitanje");
+          }),
+          map((success) => {
+            this._snackBar.open("Uspešno izbrisano pitanje!", "Zatvori", { duration: 3000 });
+            return PitanjeActions.deletePitanjeSuccess({ id });
+          }),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
 }

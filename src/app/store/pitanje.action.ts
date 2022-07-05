@@ -38,6 +38,14 @@ export const editPitanjeSuccess = createAction(
   'Edit Pitanje Success',
   props<{ pitanje: Pitanje }>()
 );
+export const deletePitanje = createAction(
+  'deletePitanje',
+  props<{ id: number, token: string }>()
+);
+export const deletePitanjeSuccess = createAction(
+  'deletePitanjeSuccess',
+  props<{ id: number }>()
+);
 
 /* export const ratePitanje = createAction(
   'Rate pitanje',

@@ -29,19 +29,23 @@ export const pitanjaReducer = createReducer(
   }),
   on(Actions.loadPitanjaSuccess, (state, { pitanja }) => {
     console.log("loadPitanjaSuccess", pitanja);
-    return adapter.setAll(pitanja, state)
+    return adapter.setAll(pitanja, state);
   }),
   on(Actions.loadSinglePitanjeSuccess, (state, { pitanje }) => {
     console.log("loadSinglePitanjeSuccess", pitanje);
-    return adapter.setOne(pitanje, state)
+    return adapter.setOne(pitanje, state);
   }),
   on(Actions.publishPitanjeSuccess, (state, { pitanje }) => {
     console.log("publishPitanjeSuccess in reducer", pitanje);
-    return adapter.addOne(pitanje, state)
+    return adapter.addOne(pitanje, state);
   }),
   on(Actions.editPitanjeSuccess, (state, { pitanje }) => {
     console.log("editPitanjeSuccess in reducer", pitanje);
-    return adapter.setOne(pitanje, state)
+    return adapter.setOne(pitanje, state);
+  }),
+  on(Actions.deletePitanjeSuccess, (state, { id }) => {
+    console.log("deletePitanjeSuccess in reducer", id);
+    return adapter.removeOne(id, state);
   }),
   /* on(Actions.rateSong, (state, { songId, rating }) =>
     adapter.updateOne(
