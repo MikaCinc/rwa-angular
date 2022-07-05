@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Potvrdite akciju</h1>
+<mat-dialog-content>
+  <p>
+    Da li ste sigurni da želite obrisati kategoriju
+    <b>{{data.category.name}}</b> ?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close (click)="confirmedDelete()">
+    Obriši
+  </button>
+  <button mat-button mat-dialog-close>Zatvori</button>
+</mat-dialog-actions>

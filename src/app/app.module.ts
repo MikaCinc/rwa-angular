@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { KategorijeComponent } from './components/kategorije/kategorije.component';
+import { DeleteDialog, KategorijeComponent } from './components/kategorije/kategorije.component';
 import { PitanjaEffects } from './store/pitanje.effects';
 import { kategorijeReducer } from './store/kategorije.reducer';
 import { pitanjaReducer } from './store/pitanje.reducer';
@@ -50,6 +50,7 @@ import { LoginComponent } from './components/login/login.component';
     InfoDialog,
     SetPitanjaComponent,
     KategorijeComponent,
+    DeleteDialog,
     HomeComponent,
     PitanjeEditorComponent,
     KategorijaEditorComponent,

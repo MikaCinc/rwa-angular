@@ -1,4 +1,5 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, Inject, OnChanges, OnInit } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, of, take } from 'rxjs';
 import { Kategorija } from 'src/app/models/kategorija';
@@ -20,7 +21,7 @@ export class KategorijeComponent implements OnInit, OnChanges {
   selectedKategorijaId$: Observable<number> = of(0);
   user$: Observable<User | null> = of(null);
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, public dialog: MatDialog) { }
 
   title = 'Kategorije';
 
@@ -70,7 +71,36 @@ export class KategorijeComponent implements OnInit, OnChanges {
   handleDelete(category: Kategorija) {
     if (!category.id) return;
 
-    this.store.dispatch(deleteCategory({ id: category.id, token: this.getToken() }));
+    this.dialog.open(DeleteDialog, {
+      restoreFocus: false,
+      data: {
+        category,
+        token: this.getToken()
+      },
+    });
   }
 
+}
+
+export interface DeleteDialogData {
+  category: Kategorija;
+  token: string;
+}
+
+@Component({
+  selector: 'dialog-from-menu-dialog',
+  templateUrl: 'delete-dialog.html',
+})
+export class DeleteDialog {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DeleteDialogData,
+    private store: Store<AppState>
+  ) { }
+
+  confirmedDelete() {
+    const { category, token } = this.data;
+    if (!category.id) return;
+
+    this.store.dispatch(deleteCategory({ id: category.id, token }));
+  }
 }
