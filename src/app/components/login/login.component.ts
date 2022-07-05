@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
-import { loginUser } from 'src/app/store/user.actions';
+import { loginUser, registerUser } from 'src/app/store/user.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -50,8 +50,16 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    if (this.isRegister) {
+    if (!this.username || !this.password) return;
 
+    if (this.isRegister) {
+      if (!this.email) return;
+
+      this.store.dispatch(registerUser({
+        username: this.username,
+        password: this.password,
+        email: this.email
+      }));
     } else {
       this.store.dispatch(loginUser({
         username: this.username,

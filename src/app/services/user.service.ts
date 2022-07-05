@@ -15,6 +15,10 @@ export class UserService {
     return this.httpClient.post<IServerResponse<LoginUser>>(environment.api + `/auth/login`, { username, password });
   }
 
+  register(username: string, password: string, email: string) {
+    return this.httpClient.post<IServerResponse<LoginUser>>(environment.api + `/auth/register`, { username, password, email });
+  }
+
   me(token: string) {
     var headers_object = new HttpHeaders({
       'Authorization': "Bearer " + token,

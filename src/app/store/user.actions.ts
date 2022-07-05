@@ -18,6 +18,16 @@ export const loginSuccess = createAction(
   props<{ data: LoginUser }>()
 );
 
+export const registerUser = createAction(
+  'registerUser',
+  props<{ username: string, password: string, email: string }>()
+);
+
+export const registerSuccess = createAction(
+  'registerSuccess',
+  props<{ data: LoginUser }>()
+);
+
 export const setTokenFromStorage = createAction(
   'setTokenFromStorage',
   props<{ token: string }>()

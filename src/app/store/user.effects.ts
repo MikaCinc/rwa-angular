@@ -33,7 +33,35 @@ export class UserEffects {
             UserActions.setTokenFromStorage({ token: data.access_token });
             return UserActions.loginSuccess({ data });
           }),
-          catchError(() => of({ type: 'login error' }))
+          catchError(({ message }) => {
+            this._snackBar.open(`${message}`, "Zatvori", { duration: 3000 })
+            return of({ type: 'login error' })
+          }),
+        )
+      )
+    )
+  );
+
+  registerUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.registerUser),
+      mergeMap(({ username, password, email }) =>
+        this.userService.register(username, password, email).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešan register");
+          }),
+          map((data: LoginUser) => {
+            this._snackBar.open(`Uspešno registrovan ${data.user.username}!`, "Zatvori", { duration: 3000 });
+            this.router.navigate(['/']);
+            localStorage.setItem('token', data.access_token);
+            UserActions.setTokenFromStorage({ token: data.access_token });
+            return UserActions.loginSuccess({ data });
+          }),
+          catchError(({ message }) => {
+            this._snackBar.open(`${message}`, "Zatvori", { duration: 3000 })
+            return of({ type: 'register error' })
+          }),
         )
       )
     )
