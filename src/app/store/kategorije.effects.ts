@@ -12,7 +12,7 @@ export class KategorijeEffects {
     private kategorijaService: KategorijaService,
     private _snackBar: MatSnackBar
   ) { }
-  
+
   loadKategorije$ = createEffect(() =>
     this.actions$.pipe(
       ofType(KategorijaActions.loadKategorije),
@@ -58,6 +58,24 @@ export class KategorijeEffects {
           map((kategorija) => {
             this._snackBar.open("Uspešno ažurirana kategorija!", "Zatvori", { duration: 3000 });
             return KategorijaActions.editKategorijaSuccess({ kategorija })
+          }),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
+  deleteCategory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(KategorijaActions.deleteCategory),
+      mergeMap(({ id, token }) =>
+        this.kategorijaService.deleteCetegory(id, token).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno izbrisana kategorija");
+          }),
+          map((success) => {
+            this._snackBar.open("Uspešno izbrisana kategorija!", "Zatvori", { duration: 3000 });
+            return KategorijaActions.deleteCategorySuccess({ id });
           }),
           catchError(() => of({ type: 'load error' }))
         )

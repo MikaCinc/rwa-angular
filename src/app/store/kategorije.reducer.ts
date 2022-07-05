@@ -43,6 +43,10 @@ export const kategorijeReducer = createReducer(
     console.log("editKategorijaSuccess in reducer", kategorija);
     return adapter.setOne(kategorija, state)
   }),
+  on(Actions.deleteCategorySuccess, (state, { id }) => {
+    console.log("deleteCategorySuccess in reducer", id);
+    return adapter.removeOne(id, state);
+  }),
   /* on(Actions.rateSong, (state, { songId, rating }) =>
     adapter.updateOne(
       {

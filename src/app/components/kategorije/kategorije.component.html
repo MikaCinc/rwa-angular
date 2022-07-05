@@ -8,8 +8,13 @@
     [value]="kategorija.name"
     [selectable]="true"
     [selected]="kategorija.id === (selectedKategorijaId$ | async)"
-    >{{ kategorija.name }}</mat-chip
+    (removed)="handleDelete(kategorija)"
   >
+    {{ kategorija.name }}
+    <button *ngIf="(user$ | async)?.type === 'ADMIN'" matChipRemove>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip>
   <!-- [selected]="kategorija.id === (selectedKategorijaId$ | async)"
   [selectable]="true" -->
   <!-- <mat-chip>Two fish</mat-chip>

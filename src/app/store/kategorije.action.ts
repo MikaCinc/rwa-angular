@@ -41,3 +41,11 @@ export const editKategorijaSuccess = createAction(
   'Edit Kategorija Success',
   props<{ kategorija: Kategorija }>()
 );
+export const deleteCategory = createAction(
+  'Delete Kategorija',
+  props<{ id: number, token: string }>()
+);
+export const deleteCategorySuccess = createAction(
+  'Delete Kategorija Success',
+  props<{ id: number }>()
+);

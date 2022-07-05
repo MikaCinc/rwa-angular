@@ -1,10 +1,12 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { Kategorija } from 'src/app/models/kategorija';
-import { loadKategorije, selectKategorija } from 'src/app/store/kategorije.action';
+import { User } from 'src/app/models/user';
+import { deleteCategory, loadKategorije, selectKategorija } from 'src/app/store/kategorije.action';
 import { selectKategorijasList, selectSelectedKategorijaId } from 'src/app/store/kategorije.selector';
 import { loadPitanjaByCategory } from 'src/app/store/pitanje.action';
+import { selectUser } from 'src/app/store/user.selector';
 import { AppState } from '../../app.state';
 
 @Component({
@@ -16,6 +18,7 @@ export class KategorijeComponent implements OnInit, OnChanges {
 
   kategorije$: Observable<Kategorija[]> = of([]);
   selectedKategorijaId$: Observable<number> = of(0);
+  user$: Observable<User | null> = of(null);
 
   constructor(private store: Store<AppState>) { }
 
@@ -25,6 +28,7 @@ export class KategorijeComponent implements OnInit, OnChanges {
     this.store.dispatch(loadKategorije());
     this.kategorije$ = this.store.select(selectKategorijasList);
     this.selectedKategorijaId$ = this.store.select(selectSelectedKategorijaId);
+    this.user$ = this.store.select(selectUser);
   }
 
   ngOnChanges() {
@@ -53,6 +57,20 @@ export class KategorijeComponent implements OnInit, OnChanges {
     this.store.dispatch(loadPitanjaByCategory({
       categoryId: kat.id,
     }));
+  }
+
+  getToken(): string {
+    let token;
+
+    this.store.pipe(take(1)).subscribe(s => token = s.user.accessToken);
+
+    return token || "";
+  }
+
+  handleDelete(category: Kategorija) {
+    if (!category.id) return;
+
+    this.store.dispatch(deleteCategory({ id: category.id, token: this.getToken() }));
   }
 
 }
