@@ -1,10 +1,35 @@
 <mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav mat-elevation-z8" mode="side">
-    <p>Auto-resizing sidenav</p>
-    <button mat-raised-button>Toggle extra text</button>
+  <mat-drawer #drawer class="example-sidenav mat-elevation-z3" mode="side">
+    <mat-nav-list>
+      <mat-list-item (click)="isExpandedDrawer = !isExpandedDrawer">
+        <mat-icon
+          mat-list-icon
+          class="chevron-button"
+          [ngClass]="{ rotated: isExpandedDrawer }"
+        >
+          chevron_right
+        </mat-icon>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'home'">
+        <mat-icon mat-list-icon>home</mat-icon>
+        <span *ngIf="isExpandedDrawer" class="menu-item">Početna</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'pitanje-editor'">
+        <mat-icon mat-list-icon>add_circle_outline</mat-icon>
+        <span *ngIf="isExpandedDrawer" class="menu-item">Pitanja</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'kategorija-editor'">
+        <mat-icon mat-list-icon>category_outline</mat-icon>
+        <span *ngIf="isExpandedDrawer" class="menu-item">Kategorije</span>
+      </mat-list-item>
+      <mat-list-item [matMenuTriggerFor]="accountMenu">
+        <mat-icon mat-list-icon>account_circle</mat-icon>
+        <span *ngIf="isExpandedDrawer" class="menu-item">Nalog</span>
+      </mat-list-item>
+    </mat-nav-list>
   </mat-drawer>
 
-  <div class="page-appbar-container">
+  <div class="page-appbar-container" [ngClass]="{ fullWidth: drawer.open }">
     <mat-toolbar color="primary" class="mat-elevation-z8">
       <button
         mat-icon-button
@@ -62,7 +87,11 @@
         <mat-icon>login</mat-icon>
         <span>Prijavi se</span>
       </button>
-      <button mat-menu-item [disabled]="!(user$ | async)?.id" (click)="handleLogout()">
+      <button
+        mat-menu-item
+        [disabled]="!(user$ | async)?.id"
+        (click)="handleLogout()"
+      >
         <mat-icon>logout</mat-icon>
         <span>Odjavi se</span>
       </button>

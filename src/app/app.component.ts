@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -14,6 +15,11 @@ import { selectUser } from './store/user.selector';
 })
 export class AppComponent {
   title = '17743-pitanja';
+  /* Drawer */
+  @ViewChild('drawer')
+  drawer!: MatDrawer;
+  isExpandedDrawer: boolean = false;
+
   user$: Observable<User | null> = of(null);
 
   constructor(private store: Store<AppState>, private _snackBar: MatSnackBar) { }
@@ -25,6 +31,10 @@ export class AppComponent {
     }
 
     this.user$ = this.store.select(selectUser);
+  }
+
+  ngAfterViewInit() {
+    this.drawer.open();
   }
 
   handleLogout() {

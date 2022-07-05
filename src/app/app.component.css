@@ -4,4 +4,22 @@
 
 .page-appbar-container {
     height: 100vh;
+    max-width: calc(100vw - 65px);
+}
+
+.page-appbar-container.fullWidth {
+    max-width: 100vw !important;
+}
+
+.menu-item {
+    margin-left: 8px;
+}
+
+.chevron-button {
+    transition: 300ms ease-in-out;
+    transform: rotate(0deg);
+}
+
+.chevron-button.rotated {
+    transform: rotate(180deg);
 }

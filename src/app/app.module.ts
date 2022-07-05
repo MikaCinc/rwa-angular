@@ -20,6 +20,7 @@ import { KategorijeEffects } from './store/kategorije.effects';
 import { HomeComponent } from './components/home/home.component';
 import { UserEffects } from './store/user.effects';
 import { userReducer } from './store/user.reducer';
+import { LoginComponent } from './components/login/login.component';
 
 /* Material UI */
 import { MatSliderModule } from '@angular/material/slider';
@@ -41,7 +42,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { LoginComponent } from './components/login/login.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { LoginComponent } from './components/login/login.component';
     MatTabsModule,
     MatAutocompleteModule,
     MatSidenavModule,
+    MatListModule,
     MatExpansionModule,
     MatMenuModule,
     MatDialogModule,
