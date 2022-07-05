@@ -5,6 +5,7 @@
 .page-appbar-container {
     height: 100vh;
     max-width: calc(100vw - 65px);
+    overflow-x: hidden;
 }
 
 .page-appbar-container.fullWidth {

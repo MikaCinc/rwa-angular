@@ -83,7 +83,12 @@
     </mat-toolbar>
 
     <mat-menu #accountMenu="matMenu">
-      <button mat-menu-item routerLink="login" [disabled]="(user$ | async)?.id">
+      <button
+        mat-menu-item
+        routerLink="login"
+        [queryParams]="{ tab: 0 }"
+        [disabled]="(user$ | async)?.id"
+      >
         <mat-icon>login</mat-icon>
         <span>Prijavi se</span>
       </button>
@@ -98,6 +103,10 @@
       <button mat-menu-item>
         <mat-icon>stars</mat-icon>
         <span>Favoriti</span>
+      </button>
+      <button mat-menu-item routerLink="login" [queryParams]="{ tab: 1 }">
+        <mat-icon>person_add</mat-icon>
+        <span>Registruj se</span>
       </button>
     </mat-menu>
 
