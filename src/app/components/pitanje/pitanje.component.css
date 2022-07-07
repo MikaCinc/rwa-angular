@@ -26,8 +26,13 @@
     text-align: center !important;
 }
 
+.miniFabCorrectButton {
+    margin-right: 20px;
+}
+
 .inputContainer {
     margin-bottom: -1.25em;
+    margin-right: 10px;
 }
 
 .cardActions {
