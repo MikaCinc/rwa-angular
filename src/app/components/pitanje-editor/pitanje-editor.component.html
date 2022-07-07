@@ -1,5 +1,5 @@
 <div class="pitanjeEditorContainer">
-  <mat-card class="example-card mat-elevation-z10">
+  <mat-card class="example-card mat-elevation-z10" dynamicHeight>
     <mat-card-title
       >{{ isEdit ? "Izmeni" : "Kreiraj novo" }} pitanje</mat-card-title
     >
@@ -42,10 +42,38 @@
           </button>
         </mat-form-field>
       </section>
-      <section class="example-section">
-        <mat-slide-toggle [(ngModel)]="isCorrect" color="primary"
-          >Odgovor je: {{ isCorrect ? "Tačno" : "Netačno" }}</mat-slide-toggle
+      <section class="typeSelectionSection">
+        <p>Izaberi tip odgovora</p>
+        <mat-radio-group
+          aria-label="Izabri tip pitanja"
+          class="typeSelectionGroup"
+          [(ngModel)]="type"
         >
+          <mat-radio-button value="BOOL">Tačno/Netačno</mat-radio-button>
+          <mat-radio-button value="TEXT">Tekstualno</mat-radio-button>
+        </mat-radio-group>
+      </section>
+      <section class="answerSection">
+        <mat-slide-toggle
+          *ngIf="type === 'BOOL'"
+          [(ngModel)]="isCorrect"
+          color="primary"
+        >
+          Odgovor je: {{ isCorrect ? "Tačno" : "Netačno" }}
+        </mat-slide-toggle>
+        <mat-form-field *ngIf="type === 'TEXT'" appearance="outline">
+          <mat-label>Tačan odgovor</mat-label>
+          <mat-icon matPrefix>check</mat-icon>
+          <input
+            type="text"
+            matInput
+            [(ngModel)]="answer"
+            name="answer"
+            placeholder="Primer tačnog odgovora..."
+          />
+          <mat-hint align="end">Odgovor treba biti kratak</mat-hint>
+          <mat-icon matSuffix>mode_edit</mat-icon>
+        </mat-form-field>
       </section>
     </mat-card-content>
     <mat-card-actions>

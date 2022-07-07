@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { Observable, of, filter, map, switchMap, concatMap, delay } from 'rxjs';
+import { QuestionTypeEnum } from 'src/app/enums';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
 import { loadPitanja, selectPitanje } from '../../store/pitanje.action';
@@ -31,7 +32,12 @@ export class SetPitanjaComponent implements OnInit {
   submitAnswer(ePitanje: PitanjeValidacija) {
     console.log("submitAnswer", ePitanje);
 
-    const isCorrect = ePitanje.isCorrect === ePitanje.guess;
+    let isCorrect = false;
+    switch (ePitanje.type) {
+      case QuestionTypeEnum.BOOL: isCorrect = ePitanje.guess === ePitanje.isCorrect; break;
+      case QuestionTypeEnum.TEXT: isCorrect = ePitanje.guess === ePitanje.answer; break;
+      default: isCorrect = false;
+    }
     const message = isCorrect ? 'TAČNO!' : 'NETAČNO!';
 
     this._snackBar.open(message, "Zatvori", {

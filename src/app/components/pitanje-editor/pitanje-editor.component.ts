@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subscription, switchMap } from 'rxjs';
 import { AppState } from 'src/app/app.state';
+import { QuestionTypeEnum } from 'src/app/enums';
 import { Kategorija } from 'src/app/models/kategorija';
 import { Pitanje } from 'src/app/models/pitanje';
 import { loadKategorije } from 'src/app/store/kategorije.action';
@@ -23,6 +24,8 @@ export class PitanjeEditorComponent implements OnInit {
   pitanjeToEditSubscription$: Subscription = new Subscription;
 
   value = '';
+  type: QuestionTypeEnum = QuestionTypeEnum.BOOL;
+  answer: string = '';
   isCorrect = true;
   categories: number[] = [];
 
@@ -52,6 +55,8 @@ export class PitanjeEditorComponent implements OnInit {
       this.isCorrect = x.isCorrect;
       this.value = x.text;
       this.categories = x.categories;
+      this.type = x.type;
+      this.answer = x.answer;
     });
 
     // edit
@@ -93,6 +98,7 @@ export class PitanjeEditorComponent implements OnInit {
     this.value = '';
     this.isCorrect = true;
     this.categories = [];
+    this.answer = '';
   }
 
   publish() {
@@ -100,12 +106,16 @@ export class PitanjeEditorComponent implements OnInit {
       this.store.dispatch(editPitanje({
         id: this.pitanjeIdToEdit,
         text: this.value,
+        qType: this.type,
+        answer: this.answer,
         isCorrect: this.isCorrect,
         categories: this.categories
       }));
     } else {
       this.store.dispatch(publishPitanje({
         text: this.value,
+        qType: this.type,
+        answer: this.answer,
         isCorrect: this.isCorrect,
         categories: this.categories
       }));

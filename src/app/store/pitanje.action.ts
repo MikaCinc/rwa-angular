@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { QuestionTypeEnum } from '../enums';
 import { Pitanje } from '../models/pitanje';
 
 export const loadPitanja = createAction('Load Pitanja');
@@ -24,11 +25,24 @@ export const selectPitanje = createAction(
 );
 export const publishPitanje = createAction(
   'Publish pitanje',
-  props<{ text: string, isCorrect: boolean, categories: number[] }>()
+  props<{
+    text: string,
+    qType: QuestionTypeEnum,
+    answer: string,
+    isCorrect: boolean,
+    categories: number[]
+  }>()
 );
 export const editPitanje = createAction(
   'Edit pitanje',
-  props<{ id: number, text: string, isCorrect: boolean, categories: number[] }>()
+  props<{
+    id: number,
+    text: string,
+    qType: QuestionTypeEnum,
+    answer: string,
+    isCorrect: boolean,
+    categories: number[]
+  }>()
 );
 export const publishPitanjeSuccess = createAction(
   'Publish Pitanje Success',

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { QuestionTypeEnum } from '../enums';
 import { IServerResponse } from '../interfaces/serverResponse';
 import { Pitanje } from '../models/pitanje';
 
@@ -22,12 +23,12 @@ export class PitanjeService {
     return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + `/pitanje/kategorija/${categoryId}`);
   }
 
-  publishPitanje(text: string, isCorrect: boolean, categories: number[] = []) {
-    return this.httpClient.post<IServerResponse<Pitanje>>(environment.api + `/pitanje`, { text, isCorrect, categories });
+  publishPitanje(text: string, qType: QuestionTypeEnum, answer: string, isCorrect: boolean, categories: number[] = []) {
+    return this.httpClient.post<IServerResponse<Pitanje>>(environment.api + `/pitanje`, { text, type: qType, answer, isCorrect, categories });
   }
 
-  editPitanje(id: number, text: string, isCorrect: boolean, categories: number[] = []) {
-    return this.httpClient.patch<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`, { text, isCorrect, categories });
+  editPitanje(id: number, text: string, qType: QuestionTypeEnum, answer: string, isCorrect: boolean, categories: number[] = []) {
+    return this.httpClient.patch<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`, { text, type: qType, answer, isCorrect, categories });
   }
 
   deletePitanje(id: number, token: string) {

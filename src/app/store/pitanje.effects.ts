@@ -63,8 +63,8 @@ export class PitanjaEffects {
   publishPitanje$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PitanjeActions.publishPitanje),
-      mergeMap(({ text, isCorrect, categories }) =>
-        this.pitanjeService.publishPitanje(text, isCorrect, categories).pipe(
+      mergeMap(({ text, qType, answer, isCorrect, categories }) =>
+        this.pitanjeService.publishPitanje(text, qType, answer, isCorrect, categories).pipe(
           map((res) => {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno kreiranje pitanja");
@@ -81,8 +81,8 @@ export class PitanjaEffects {
   editPitanje$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PitanjeActions.editPitanje),
-      mergeMap(({ id, text, isCorrect, categories }) =>
-        this.pitanjeService.editPitanje(id, text, isCorrect, categories).pipe(
+      mergeMap(({ id, text, qType, answer, isCorrect, categories }) =>
+        this.pitanjeService.editPitanje(id, text, qType, answer, isCorrect, categories).pipe(
           map((res) => {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno ažuriranje pitanja");

@@ -39,15 +39,42 @@
     </button>
   </mat-menu>
 
-  <mat-card-actions [ngClass]="isFocusMode ? 'centeredTitle' : ''">
-    <button color="primary" mat-stroked-button (click)="validacija(true)">
-      <mat-icon>check_circle</mat-icon>
-      <span>Tačno</span>
-    </button>
-    <button color="accent" mat-stroked-button (click)="validacija(false)">
-      <mat-icon>cancel</mat-icon>
-      <span>Netačno</span>
-    </button>
+  <mat-card-actions [ngClass]="isFocusMode ? 'centeredTitle' : 'cardActions'">
+    <div *ngIf="pitanje.type === typeOfQuestion.BOOL">
+      <button color="primary" mat-stroked-button (click)="validacija(true)">
+        <mat-icon>check_circle</mat-icon>
+        <span>Tačno</span>
+      </button>
+      <button color="accent" mat-stroked-button (click)="validacija(false)">
+        <mat-icon>cancel</mat-icon>
+        <span>Netačno</span>
+      </button>
+    </div>
+    <div class="inputContainer" *ngIf="pitanje.type === typeOfQuestion.TEXT">
+      <mat-form-field appearance="outline">
+        <mat-label>Odgovor</mat-label>
+        <mat-icon matPrefix>mode_edit</mat-icon>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="userAnswer"
+          name="userAnswer"
+        />
+        <button mat-icon-button matSuffix (click)="handleShowAnswer()">
+          <mat-icon>{{
+            showAnswer ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <button
+        color="primary"
+        mat-raised-button
+        (click)="validacija(userAnswer)"
+      >
+        <mat-icon>help</mat-icon>
+        <!-- <span>PROVERI</span> -->
+      </button>
+    </div>
     <button
       #menuTrigger
       mat-icon-button

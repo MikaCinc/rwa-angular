@@ -25,3 +25,15 @@
 .centeredTitle {
     text-align: center !important;
 }
+
+.inputContainer {
+    margin-bottom: -1.25em;
+}
+
+.cardActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}

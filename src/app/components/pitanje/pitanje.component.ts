@@ -4,6 +4,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map, Observable, of, take } from 'rxjs';
+import { QuestionTypeEnum } from 'src/app/enums';
 import { Kategorija } from 'src/app/models/kategorija';
 import { User } from 'src/app/models/user';
 import { selectKategorija } from 'src/app/store/kategorije.action';
@@ -15,7 +16,7 @@ import { deletePitanje, loadPitanja, loadPitanjaByCategory, selectPitanje } from
 import { selectPitanjesList } from '../../store/pitanje.selector';
 
 export interface PitanjeValidacija extends Pitanje {
-  guess: boolean;
+  guess: boolean | string;
 }
 
 @Component({
@@ -40,6 +41,8 @@ export class PitanjeComponent implements OnInit {
 
   title = 'Pitanje';
   datumKreiranja = "";
+  userAnswer = "";
+  showAnswer = false;
 
   ngOnInit(): void {
     /* this.store.dispatch(loadPitanja());
@@ -54,13 +57,22 @@ export class PitanjeComponent implements OnInit {
     this.user$ = this.store.select(selectUser);
   }
 
-  validacija(guess: boolean) {
+  public get typeOfQuestion(): typeof QuestionTypeEnum {
+    return QuestionTypeEnum;
+  }
+
+  validacija(guess: boolean | string) {
     if (!this.pitanje) return;
-    const objToSend = {
+    const objToSend: PitanjeValidacija = {
       ...this.pitanje,
       guess
     }
     this.submit.emit(objToSend);
+  }
+
+  handleShowAnswer() {
+    this.showAnswer = !this.showAnswer;
+    this.userAnswer = this.showAnswer ? this.pitanje?.answer || "" : "";
   }
 
   promenaKategorija(kat: Kategorija) {
@@ -112,6 +124,7 @@ export class PitanjeComponent implements OnInit {
       data: {
         dateCreated: new Date(this.pitanje?.dateCreated || "").toLocaleString(),
         dateUpdated: new Date(this.pitanje?.dateUpdated || "").toLocaleString(),
+        type: this.pitanje?.type,
       },
     });
 
@@ -124,6 +137,7 @@ export class PitanjeComponent implements OnInit {
 export interface InfoDialogData {
   dateCreated: string;
   dateUpdated: string;
+  type: QuestionTypeEnum;
 }
 
 @Component({
@@ -132,4 +146,12 @@ export interface InfoDialogData {
 })
 export class InfoDialog {
   constructor(@Inject(MAT_DIALOG_DATA) public data: InfoDialogData) { }
+
+  public get typeOfQuestion(): string {
+    switch (this.data.type) {
+      case QuestionTypeEnum.TEXT: return "Tekstualno pitanje";
+      case QuestionTypeEnum.BOOL: return "Tačno/Netačno pitanje";
+      default: return "";
+    }
+  }
 }
