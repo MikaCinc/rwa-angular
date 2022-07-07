@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { Observable, of, filter, map, switchMap, concatMap, delay } from 'rxjs';
-import { QuestionTypeEnum } from 'src/app/enums';
+import { Observable, of, filter, map, switchMap, concatMap, delay, mergeMap, delayWhen, timer, Subscription } from 'rxjs';
+import { QuestionTypeEnum, SpecialCategoryValuesEnum } from 'src/app/enums';
+import { selectKategorija } from 'src/app/store/kategorije.action';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
-import { loadPitanja, selectPitanje } from '../../store/pitanje.action';
+import { loadFeaturedPitanja, loadPitanja, selectPitanje } from '../../store/pitanje.action';
 import { selectPitanjesList } from '../../store/pitanje.selector';
 import { PitanjeValidacija } from '../pitanje/pitanje.component';
 
@@ -17,16 +18,24 @@ import { PitanjeValidacija } from '../pitanje/pitanje.component';
 export class SetPitanjaComponent implements OnInit {
 
   pitanja$: Observable<Pitanje[]> = of([]);
+  pitanjaCurrent: Pitanje[] = [];
+  pitanjaSubscription$: Subscription = new Subscription();
 
   constructor(private store: Store<AppState>, private _snackBar: MatSnackBar) { }
 
-  title: string = 'Set pitanja';
   isCyclingQuestions: boolean = true;
   isFocusMode: boolean = false;
 
   ngOnInit(): void {
-    this.store.dispatch(loadPitanja());
-    this.pitanja$ = this.store.select(selectPitanjesList).pipe(delay(200));
+    this.store.dispatch(loadFeaturedPitanja());
+    this.store.dispatch(selectKategorija({ kategorijaId: SpecialCategoryValuesEnum.FEATURED }));
+    this.pitanja$ = this.store.select(selectPitanjesList)
+      .pipe(delay(200));
+    this.pitanjaSubscription$ = this.pitanja$.subscribe(pitanja => this.pitanjaCurrent = pitanja);
+  }
+
+  ngOnDestroy() {
+    this.pitanjaSubscription$.unsubscribe();
   }
 
   submitAnswer(ePitanje: PitanjeValidacija) {
@@ -45,14 +54,30 @@ export class SetPitanjaComponent implements OnInit {
       panelClass: [`snack-${isCorrect ? "success" : "error"}`]
     });
 
-    this.pitanja$ =
+    if (this.isCyclingQuestions) {
+      this.pitanjaCurrent = [...this.pitanjaCurrent.filter(p => p.id !== ePitanje.id), ePitanje];
+    } else {
+      this.pitanjaCurrent = this.pitanjaCurrent.filter(p => p.id !== ePitanje.id);
+    }
+    /* this.pitanja$ =
       this.pitanja$.pipe(map(pitanja => {
         if (this.isCyclingQuestions) {
           return [...pitanja.filter(p => p.id !== ePitanje.id), ePitanje]
         } else {
           return [...pitanja.filter(p => p.id !== ePitanje.id)]
         }
-      }));
+      })); */
+    /* this.pitanja$ =
+      this.pitanja$.pipe(switchMap(pitanja => {
+        console.log("switchMap", pitanja);
+
+        if (!pitanja.length) return this.store.select(selectPitanjesList);
+        if (this.isCyclingQuestions) {
+          return of([...pitanja.filter(p => p.id !== ePitanje.id), ePitanje]);
+        } else {
+          return of([...pitanja.filter(p => p.id !== ePitanje.id)]);
+        }
+      })); */
   }
 
   selectPitanje(pitanje: Pitanje, answer: boolean) {

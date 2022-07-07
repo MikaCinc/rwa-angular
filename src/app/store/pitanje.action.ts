@@ -3,6 +3,7 @@ import { QuestionTypeEnum } from '../enums';
 import { Pitanje } from '../models/pitanje';
 
 export const loadPitanja = createAction('Load Pitanja');
+export const loadFeaturedPitanja = createAction('loadFeaturedPitanja');
 export const loadPitanjaByCategory = createAction(
   'Load Pitanja By Category',
   props<{ categoryId: number }>()
@@ -59,6 +60,14 @@ export const deletePitanje = createAction(
 export const deletePitanjeSuccess = createAction(
   'deletePitanjeSuccess',
   props<{ id: number }>()
+);
+export const toggleFeatured = createAction(
+  'toggleFeatured',
+  props<{ id: number, token: string }>()
+);
+export const toggleFeaturedSuccess = createAction(
+  'toggleFeaturedSuccess',
+  props<{ pitanje: Pitanje }>()
 );
 
 /* export const ratePitanje = createAction(

@@ -47,6 +47,13 @@ export const pitanjaReducer = createReducer(
     console.log("deletePitanjeSuccess in reducer", id);
     return adapter.removeOne(id, state);
   }),
+  on(Actions.toggleFeaturedSuccess, (state, { pitanje }) => {
+    console.log("toggleFeaturedSuccess in reducer", pitanje);
+    return adapter.updateOne({
+      id: pitanje.id,
+      changes: { isFeatured: pitanje.isFeatured },
+    }, state);
+  }),
   /* on(Actions.rateSong, (state, { songId, rating }) =>
     adapter.updateOne(
       {

@@ -15,6 +15,10 @@ export class PitanjeService {
     return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + '/pitanje');
   }
 
+  getAllFeatured() {
+    return this.httpClient.get<IServerResponse<Pitanje[]>>(environment.api + '/pitanje/featured');
+  }
+
   getSingle(id: number) {
     return this.httpClient.get<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`);
   }
@@ -42,5 +46,18 @@ export class PitanjeService {
     };
 
     return this.httpClient.delete<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}`, httpOptions);
+  }
+
+  toggleFeatured(id: number, token: string) {
+    var headers_object = new HttpHeaders({
+      'Authorization': "Bearer " + token,
+      'Content-Type': 'application/json',
+    });
+
+    const httpOptions = {
+      headers: headers_object,
+    };
+
+    return this.httpClient.get<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}/toggleFeatured`, httpOptions);
   }
 }

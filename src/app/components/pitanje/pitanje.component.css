@@ -26,6 +26,12 @@
     text-align: center !important;
 }
 
+.titleAndIcon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .miniFabCorrectButton {
     margin-right: 20px;
 }
@@ -41,4 +47,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    flex: 1;
+    margin: 0px;
 }

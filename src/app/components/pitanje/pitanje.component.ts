@@ -12,7 +12,7 @@ import { selectKategorijasList, selectSelectedKategorijaId } from 'src/app/store
 import { selectUser } from 'src/app/store/user.selector';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
-import { deletePitanje, loadPitanja, loadPitanjaByCategory, selectPitanje } from '../../store/pitanje.action';
+import { deletePitanje, loadPitanja, loadPitanjaByCategory, selectPitanje, toggleFeatured } from '../../store/pitanje.action';
 import { selectPitanjesList } from '../../store/pitanje.selector';
 
 export interface PitanjeValidacija extends Pitanje {
@@ -110,6 +110,14 @@ export class PitanjeComponent implements OnInit {
     this.store.pipe(take(1)).subscribe(s => token = s.user.accessToken);
 
     return token || "";
+  }
+
+  toggleFeatured() {
+    if (!this.pitanje) return;
+
+    this.store.dispatch(
+      toggleFeatured({ id: this.pitanje?.id, token: this.getToken() })
+    );
   }
 
   handleDelete() {

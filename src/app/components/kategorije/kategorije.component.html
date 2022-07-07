@@ -1,6 +1,27 @@
-<h2>{{ title }}</h2>
 <mat-chip-list aria-label="Izbor kategorija" class="listOfCategories">
   <!-- (selectionChange)="promenaKategorija($event)" -->
+  <mat-chip
+    color="primary"
+    (click)="handleAll()"
+    [value]="'SVA'"
+    [selectable]="true"
+    [selected]="typeOfSpecialCategories.ALL === (selectedKategorijaId$ | async)"
+  >
+    <mat-icon class="chipIcon">all_inclusive</mat-icon>
+    SVA
+  </mat-chip>
+  <mat-chip
+    color="primary"
+    (click)="handleFeatured()"
+    [value]="'ISTAKNUTA'"
+    [selectable]="true"
+    [selected]="
+      typeOfSpecialCategories.FEATURED === (selectedKategorijaId$ | async)
+    "
+  >
+    <mat-icon class="chipIcon">bookmarks</mat-icon>
+    ISTAKNUTA
+  </mat-chip>
   <mat-chip
     *ngFor="let kategorija of kategorije$ | async"
     color="primary"

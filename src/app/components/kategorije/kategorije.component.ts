@@ -2,11 +2,12 @@ import { Component, Inject, OnChanges, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, of, take } from 'rxjs';
+import { SpecialCategoryValuesEnum } from 'src/app/enums';
 import { Kategorija } from 'src/app/models/kategorija';
 import { User } from 'src/app/models/user';
 import { deleteCategory, loadKategorije, selectKategorija } from 'src/app/store/kategorije.action';
 import { selectKategorijasList, selectSelectedKategorijaId } from 'src/app/store/kategorije.selector';
-import { loadPitanjaByCategory } from 'src/app/store/pitanje.action';
+import { loadFeaturedPitanja, loadPitanja, loadPitanjaByCategory } from 'src/app/store/pitanje.action';
 import { selectUser } from 'src/app/store/user.selector';
 import { AppState } from '../../app.state';
 
@@ -58,6 +59,30 @@ export class KategorijeComponent implements OnInit, OnChanges {
     this.store.dispatch(loadPitanjaByCategory({
       categoryId: kat.id,
     }));
+  }
+
+  handleFeatured() {
+    this.store.dispatch(
+      selectKategorija({
+        kategorijaId: SpecialCategoryValuesEnum.FEATURED, // Special Value for featured
+      })
+    );
+
+    this.store.dispatch(loadFeaturedPitanja());
+  }
+
+  handleAll() {
+    this.store.dispatch(
+      selectKategorija({
+        kategorijaId: SpecialCategoryValuesEnum.ALL, // Special Value for all
+      })
+    );
+
+    this.store.dispatch(loadPitanja());
+  }
+
+  get typeOfSpecialCategories(): typeof SpecialCategoryValuesEnum {
+    return SpecialCategoryValuesEnum;
   }
 
   getToken(): string {

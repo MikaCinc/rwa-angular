@@ -1,4 +1,3 @@
-<h2>{{ title }}</h2>
 <div class="settings">
   <mat-accordion>
     <mat-expansion-panel>
@@ -32,7 +31,7 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
-<div *ngFor="let pitanje of pitanja$ | async" class="setPitanjaListContainer">
+<div *ngFor="let pitanje of pitanjaCurrent" class="setPitanjaListContainer">
   <!-- (click)="selectPitanje(pitanje, true)" -->
   <app-pitanje
     [pitanje]="pitanje"
@@ -40,6 +39,6 @@
     (submit)="submitAnswer($event)"
   ></app-pitanje>
 </div>
-<div class="loader" *ngIf="!(pitanja$ | async)?.length">
+<div class="loader" *ngIf="!pitanjaCurrent?.length">
   <mat-spinner></mat-spinner>
 </div>

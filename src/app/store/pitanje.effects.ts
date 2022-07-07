@@ -30,6 +30,23 @@ export class PitanjaEffects {
       )
     )
   );
+  loadFeaturedPitanja$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PitanjeActions.loadFeaturedPitanja),
+      mergeMap(() =>
+        this.pitanjeService.getAllFeatured().pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
+          }),
+          map((pitanja) => {
+            return PitanjeActions.loadPitanjaSuccess({ pitanja })
+          }),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
   loadSinglePitanje$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PitanjeActions.loadSinglePitanje),
@@ -108,6 +125,24 @@ export class PitanjaEffects {
           map((success) => {
             this._snackBar.open("Uspešno izbrisano pitanje!", "Zatvori", { duration: 3000 });
             return PitanjeActions.deletePitanjeSuccess({ id });
+          }),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
+  toggleFeatured$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PitanjeActions.toggleFeatured),
+      mergeMap(({ id, token }) =>
+        this.pitanjeService.toggleFeatured(id, token).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno promenjena istaknutost pitanja");
+          }),
+          map((pitanje) => {
+            this._snackBar.open("Uspešno promenjena istaknutost pitanja!", "Zatvori", { duration: 3000 });
+            return PitanjeActions.toggleFeaturedSuccess({ pitanje });
           }),
           catchError(() => of({ type: 'load error' }))
         )
