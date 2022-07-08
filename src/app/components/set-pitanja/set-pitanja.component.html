@@ -14,7 +14,20 @@
         >Rešeno pitanje ide na kraj: {{ isCyclingQuestions ? "Da" : "Ne" }}
         <!-- color="primary" -->
       </mat-slide-toggle>
-      <p>@todo samo text pitanja / samo bool pitanja</p>
+      <h4>Filtriraj po tipu pitanja</h4>
+      <mat-button-toggle-group
+        name="filterByType"
+        [value]="currentQuestionsType"
+        (change)="handleFilterByType($event.source.value)"
+      >
+        <mat-button-toggle value="ALL">Sva</mat-button-toggle>
+        <mat-button-toggle [value]="typeOfQuestions.BOOL"
+          >Tačno / Netačno</mat-button-toggle
+        >
+        <mat-button-toggle [value]="typeOfQuestions.TEXT"
+          >Tekstualna</mat-button-toggle
+        >
+      </mat-button-toggle-group>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

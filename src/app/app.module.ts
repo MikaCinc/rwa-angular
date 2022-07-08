@@ -44,6 +44,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatMenuModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatButtonToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

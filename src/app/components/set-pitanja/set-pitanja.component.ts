@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { Observable, of, filter, map, switchMap, concatMap, delay, mergeMap, delayWhen, timer, Subscription } from 'rxjs';
+import { Observable, of, filter, map, switchMap, concatMap, take, delay, mergeMap, delayWhen, timer, Subscription } from 'rxjs';
 import { QuestionTypeEnum, SpecialCategoryValuesEnum } from 'src/app/enums';
 import { selectKategorija } from 'src/app/store/kategorije.action';
 import { AppState } from '../../app.state';
@@ -25,17 +25,33 @@ export class SetPitanjaComponent implements OnInit {
 
   isCyclingQuestions: boolean = true;
   isFocusMode: boolean = false;
+  currentQuestionsType: QuestionTypeEnum | "ALL" = "ALL";
 
   ngOnInit(): void {
     this.store.dispatch(loadFeaturedPitanja());
     this.store.dispatch(selectKategorija({ kategorijaId: SpecialCategoryValuesEnum.FEATURED }));
     this.pitanja$ = this.store.select(selectPitanjesList)
       .pipe(delay(200));
-    this.pitanjaSubscription$ = this.pitanja$.subscribe(pitanja => this.pitanjaCurrent = pitanja);
+    this.pitanjaSubscription$ = this.pitanja$.subscribe(pitanja => {
+      this.pitanjaCurrent = pitanja;
+      this.currentQuestionsType = "ALL";
+    });
   }
 
   ngOnDestroy() {
     this.pitanjaSubscription$.unsubscribe();
+  }
+
+  get typeOfQuestions(): typeof QuestionTypeEnum {
+    return QuestionTypeEnum;
+  }
+
+  getCurrentGlobalQuestions(): Pitanje[] {
+    let questions: Pitanje[] = [];
+    this.store.select(selectPitanjesList)
+      .pipe(take(1))
+      .subscribe(globalQuestions => questions = globalQuestions);
+    return questions;
   }
 
   submitAnswer(ePitanje: PitanjeValidacija) {
@@ -88,5 +104,15 @@ export class SetPitanjaComponent implements OnInit {
         pitanjeId: pitanje.id,
       })
     );
+  }
+
+  handleFilterByType(type: QuestionTypeEnum | "ALL") {
+    this.currentQuestionsType = type;
+
+    switch (type) {
+      case "ALL": this.pitanjaCurrent = this.getCurrentGlobalQuestions(); break;
+      case QuestionTypeEnum.BOOL: this.pitanjaCurrent = this.getCurrentGlobalQuestions().filter(p => p.type === QuestionTypeEnum.BOOL); break;
+      case QuestionTypeEnum.TEXT: this.pitanjaCurrent = this.getCurrentGlobalQuestions().filter(p => p.type === QuestionTypeEnum.TEXT); break;
+    }
   }
 }
