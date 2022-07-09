@@ -12,6 +12,19 @@
   </mat-chip>
   <mat-chip
     color="primary"
+    (click)="handleFavourites()"
+    [value]="'FAVORITI'"
+    [selectable]="!(user$ | async)?.favourites?.length"
+    [disabled]="!(user$ | async)?.favourites?.length"
+    [selected]="
+      typeOfSpecialCategories.FAVOURITES === (selectedKategorijaId$ | async)
+    "
+  >
+    <mat-icon class="chipIcon">favorite</mat-icon>
+    FAVORITI
+  </mat-chip>
+  <mat-chip
+    color="primary"
     (click)="handleFeatured()"
     [value]="'ISTAKNUTA'"
     [selectable]="true"

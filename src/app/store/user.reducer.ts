@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../models/user';
 import * as UserActions from './user.actions';
+import * as PitanjaActions from './pitanje.action';
 import { state } from '@angular/animations';
 
 export const usersFeatureKey = 'users';
@@ -26,5 +27,8 @@ export const userReducer = createReducer(
   ),
   on(UserActions.logout,
     (state, action) => ({ ...state, user: null, accessToken: '' })
+  ),
+  on(PitanjaActions.toggleFavouriteSuccess,
+    (state, action) => ({ ...state, user: action.user })
   ),
 );

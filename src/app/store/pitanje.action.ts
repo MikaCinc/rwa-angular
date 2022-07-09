@@ -1,9 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import { QuestionTypeEnum } from '../enums';
 import { Pitanje } from '../models/pitanje';
+import { User } from '../models/user';
 
 export const loadPitanja = createAction('Load Pitanja');
 export const loadFeaturedPitanja = createAction('loadFeaturedPitanja');
+export const loadUserFavourites = createAction(
+  'loadUserFavourites',
+  props<{ pitanja: Pitanje[] }>()
+);
 export const loadPitanjaByCategory = createAction(
   'Load Pitanja By Category',
   props<{ categoryId: number }>()
@@ -68,6 +73,14 @@ export const toggleFeatured = createAction(
 export const toggleFeaturedSuccess = createAction(
   'toggleFeaturedSuccess',
   props<{ pitanje: Pitanje }>()
+);
+export const toggleFavourite = createAction(
+  'toggleFavourite',
+  props<{ id: number, token: string }>()
+);
+export const toggleFavouriteSuccess = createAction(
+  'toggleFavouriteSuccess',
+  props<{ user: User }>()
 );
 
 /* export const ratePitanje = createAction(

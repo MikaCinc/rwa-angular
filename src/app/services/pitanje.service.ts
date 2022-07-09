@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { QuestionTypeEnum } from '../enums';
 import { IServerResponse } from '../interfaces/serverResponse';
 import { Pitanje } from '../models/pitanje';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -59,5 +60,18 @@ export class PitanjeService {
     };
 
     return this.httpClient.get<IServerResponse<Pitanje>>(environment.api + `/pitanje/${id}/toggleFeatured`, httpOptions);
+  }
+
+  toggleFavourite(id: number, token: string) {
+    var headers_object = new HttpHeaders({
+      'Authorization': "Bearer " + token,
+      'Content-Type': 'application/json',
+    });
+
+    const httpOptions = {
+      headers: headers_object,
+    };
+
+    return this.httpClient.get<IServerResponse<User>>(environment.api + `/user/toggleFavourite/${id}`, httpOptions);
   }
 }

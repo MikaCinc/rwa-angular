@@ -12,11 +12,13 @@ export const selectKategorijaIds = createSelector(
   (kategorije) => kategorije.ids
 );
 
-export const selectKategorijasList = createSelector(selectKategorijeFeature, (kategorije) =>
-  kategorije.ids
-    .map((id) => kategorije.entities[id])
-    .filter((kategorija) => kategorija != null)
-    .map((kategorija) => <Kategorija>kategorija)
+export const selectKategorijasList = createSelector(
+  selectKategorijeFeature,
+  (kategorije) =>
+    kategorije.ids
+      .map((id) => kategorije.entities[id])
+      .filter((kategorija) => kategorija != null)
+      .map((kategorija) => <Kategorija>kategorija)
 );
 
 // export const selectKategorijasDict = createSelector(

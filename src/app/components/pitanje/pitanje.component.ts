@@ -3,16 +3,16 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter, map, Observable, of, take } from 'rxjs';
+import { filter, map, Observable, of, Subscriber, Subscription, take } from 'rxjs';
 import { QuestionTypeEnum } from 'src/app/enums';
 import { Kategorija } from 'src/app/models/kategorija';
 import { User } from 'src/app/models/user';
 import { selectKategorija } from 'src/app/store/kategorije.action';
 import { selectKategorijasList, selectSelectedKategorijaId } from 'src/app/store/kategorije.selector';
-import { selectUser } from 'src/app/store/user.selector';
+import { selectUser, selectUserFavouritesIDs } from 'src/app/store/user.selector';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
-import { deletePitanje, loadPitanja, loadPitanjaByCategory, selectPitanje, toggleFeatured } from '../../store/pitanje.action';
+import { deletePitanje, loadPitanja, loadPitanjaByCategory, selectPitanje, toggleFavourite, toggleFeatured } from '../../store/pitanje.action';
 import { selectPitanjesList } from '../../store/pitanje.selector';
 
 export interface PitanjeValidacija extends Pitanje {
@@ -36,6 +36,7 @@ export class PitanjeComponent implements OnInit {
   selectedKategorijaId$: Observable<number> = of(0);
   kategorije$: Observable<Kategorija[]> = of([]);
   user$: Observable<User | null> = of(null);
+  isFavouriteSubscription$: Subscription = new Subscription();
 
   constructor(private router: Router, private store: Store<AppState>, public dialog: MatDialog) { }
 
@@ -43,18 +44,24 @@ export class PitanjeComponent implements OnInit {
   datumKreiranja = "";
   userAnswer = "";
   showAnswer = false;
+  isFavourite = false;
 
   ngOnInit(): void {
-    /* this.store.dispatch(loadPitanja());
-    this.pitanja$ = this.store.select(selectPitanjesList); */
     this.kategorije$ = this.store.select(selectKategorijasList).pipe(
       map(all => all.filter(single => this.pitanje?.categories.includes(single.id)))
     );
     this.selectedKategorijaId$ = this.store.select(selectSelectedKategorijaId);
+    this.isFavouriteSubscription$ = this.store
+      .select(selectUserFavouritesIDs)
+      .subscribe(ids => this.isFavourite = !!(this.pitanje?.id && ids?.includes(this.pitanje?.id)));
 
     this.datumKreiranja = new Date(this.pitanje?.dateCreated || "").toLocaleString();
 
     this.user$ = this.store.select(selectUser);
+  }
+
+  ngOnDestroy(): void {
+    this.isFavouriteSubscription$.unsubscribe();
   }
 
   public get typeOfQuestion(): typeof QuestionTypeEnum {
@@ -117,6 +124,14 @@ export class PitanjeComponent implements OnInit {
 
     this.store.dispatch(
       toggleFeatured({ id: this.pitanje?.id, token: this.getToken() })
+    );
+  }
+
+  toggleFavourite() {
+    if (!this.pitanje) return;
+
+    this.store.dispatch(
+      toggleFavourite({ id: this.pitanje?.id, token: this.getToken() })
     );
   }
 

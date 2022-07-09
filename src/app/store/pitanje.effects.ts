@@ -149,4 +149,22 @@ export class PitanjaEffects {
       )
     )
   );
+  toggleFavourite$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PitanjeActions.toggleFavourite),
+      mergeMap(({ id, token }) =>
+        this.pitanjeService.toggleFavourite(id, token).pipe(
+          map((res) => {
+            if (res.success && res.data) return res.data;
+            else throw new Error(res.message || "Nije uspešno promenjena favoritnost pitanja");
+          }),
+          map((user) => {
+            this._snackBar.open("Uspešno promenjena favoritnost pitanja!", "Zatvori", { duration: 3000 });
+            return PitanjeActions.toggleFavouriteSuccess({ user });
+          }),
+          catchError(() => of({ type: 'load error' }))
+        )
+      )
+    )
+  );
 }

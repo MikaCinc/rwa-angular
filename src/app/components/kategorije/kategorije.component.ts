@@ -7,7 +7,7 @@ import { Kategorija } from 'src/app/models/kategorija';
 import { User } from 'src/app/models/user';
 import { deleteCategory, loadKategorije, selectKategorija } from 'src/app/store/kategorije.action';
 import { selectKategorijasList, selectSelectedKategorijaId } from 'src/app/store/kategorije.selector';
-import { loadFeaturedPitanja, loadPitanja, loadPitanjaByCategory } from 'src/app/store/pitanje.action';
+import { loadFeaturedPitanja, loadPitanja, loadPitanjaByCategory, loadUserFavourites } from 'src/app/store/pitanje.action';
 import { selectUser } from 'src/app/store/user.selector';
 import { AppState } from '../../app.state';
 
@@ -79,6 +79,19 @@ export class KategorijeComponent implements OnInit, OnChanges {
     );
 
     this.store.dispatch(loadPitanja());
+  }
+
+  handleFavourites() {
+    this.store.dispatch(
+      selectKategorija({
+        kategorijaId: SpecialCategoryValuesEnum.FAVOURITES, // Special Value for favourites
+      })
+    );
+
+    let favourites;
+    this.store.pipe(take(1)).subscribe(s => favourites = s.user?.user?.favourites);
+
+    this.store.dispatch(loadUserFavourites({ pitanja: favourites || [] }));
   }
 
   get typeOfSpecialCategories(): typeof SpecialCategoryValuesEnum {

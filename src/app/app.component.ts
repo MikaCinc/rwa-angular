@@ -3,12 +3,12 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { AppState } from './app.state';
 import { SpecialCategoryValuesEnum } from './enums';
 import { User } from './models/user';
 import { selectKategorija } from './store/kategorije.action';
-import { loadFeaturedPitanja, loadPitanja } from './store/pitanje.action';
+import { loadFeaturedPitanja, loadPitanja, loadUserFavourites } from './store/pitanje.action';
 import { getProfile, logout } from './store/user.actions';
 import { selectUser } from './store/user.selector';
 
@@ -62,6 +62,16 @@ export class AppComponent {
   goToAll() {
     this.store.dispatch(selectKategorija({ kategorijaId: SpecialCategoryValuesEnum.ALL }));
     this.store.dispatch(loadPitanja());
+    this.router.navigate(['/']);
+  }
+
+  goToFavourites() {
+    this.store.dispatch(selectKategorija({ kategorijaId: SpecialCategoryValuesEnum.FAVOURITES }));
+
+    let favourites;
+    this.store.pipe(take(1)).subscribe(s => favourites = s.user?.user?.favourites);
+    this.store.dispatch(loadUserFavourites({ pitanja: favourites || [] }));
+
     this.router.navigate(['/']);
   }
 }
