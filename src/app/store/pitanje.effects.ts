@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, delay, map, mergeMap, of } from 'rxjs';
 import { PitanjeService } from '../services/pitanje.service';
 import * as PitanjeActions from './pitanje.action';
 
@@ -18,6 +18,7 @@ export class PitanjaEffects {
       ofType(PitanjeActions.loadPitanja),
       mergeMap(() =>
         this.pitanjeService.getAll().pipe(
+          delay(1000),
           map((res) => {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
@@ -35,6 +36,7 @@ export class PitanjaEffects {
       ofType(PitanjeActions.loadFeaturedPitanja),
       mergeMap(() =>
         this.pitanjeService.getAllFeatured().pipe(
+          delay(1000),
           map((res) => {
             if (res.success && res.data) return res.data;
             else throw new Error(res.message || "Nije uspešno učitavanje pitanja");
@@ -64,6 +66,7 @@ export class PitanjaEffects {
   );
   loadPitanjaByCategory$ = createEffect(() =>
     this.actions$.pipe(
+      delay(1000),
       ofType(PitanjeActions.loadPitanjaByCategory),
       mergeMap(({ categoryId }) =>
         this.pitanjeService.getAllByCategory(categoryId).pipe(

@@ -22,6 +22,10 @@ export const selectPitanjesList = createSelector(selectPitanjaFeature, (pitanja)
 export const selectPitanjesEntities = createSelector(selectPitanjaFeature, (pitanja) =>
   pitanja.entities
 );
+export const selectIsLoading = createSelector(
+  (state: AppState) => state.pitanja,
+  (pitanja) => pitanja.isLoading
+);
 
 // export const selectPitanjesDict = createSelector(
 //     selectPitanjaFeature,

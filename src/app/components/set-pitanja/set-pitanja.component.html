@@ -12,7 +12,6 @@
         aria-label="isCyclingQuestions"
         [(ngModel)]="isCyclingQuestions"
         >Rešeno pitanje ide na kraj: {{ isCyclingQuestions ? "Da" : "Ne" }}
-        <!-- color="primary" -->
       </mat-slide-toggle>
       <h4>Filtriraj po tipu pitanja</h4>
       <mat-button-toggle-group
@@ -39,19 +38,27 @@
       </mat-expansion-panel-header>
       <mat-slide-toggle aria-label="isFocusMode" [(ngModel)]="isFocusMode"
         >Fokusirano rešavanje: {{ isFocusMode ? "Da" : "Ne" }}
-        <!-- color="primary" -->
       </mat-slide-toggle>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
+<div class="loader" *ngIf="isLoading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+<div
+  class="noQuestionsContainer"
+  *ngIf="!pitanjaCurrent?.length && !(isLoading$ | async)"
+>
+  <p>Nema pitanja</p>
+  <button color="primary" mat-raised-button (click)="reload()">
+    <mat-icon>refresh</mat-icon>
+    <span>Učitaj ponovo</span>
+  </button>
+</div>
 <div *ngFor="let pitanje of pitanjaCurrent" class="setPitanjaListContainer">
-  <!-- (click)="selectPitanje(pitanje, true)" -->
   <app-pitanje
     [pitanje]="pitanje"
     [isFocusMode]="isFocusMode"
     (submit)="submitAnswer($event)"
   ></app-pitanje>
-</div>
-<div class="loader" *ngIf="!pitanjaCurrent?.length">
-  <mat-spinner></mat-spinner>
 </div>

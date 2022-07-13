@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { Observable, of, filter, map, switchMap, concatMap, take, delay, mergeMap, delayWhen, timer, Subscription } from 'rxjs';
+import { Observable, of, filter, map, switchMap, concatMap, take, delay, mergeMap, delayWhen, timer, Subscription, startWith } from 'rxjs';
 import { QuestionTypeEnum, SpecialCategoryValuesEnum } from 'src/app/enums';
 import { selectKategorija } from 'src/app/store/kategorije.action';
+import { selectSelectedKategorijaId } from 'src/app/store/kategorije.selector';
 import { AppState } from '../../app.state';
 import { Pitanje } from '../../models/pitanje';
-import { loadFeaturedPitanja, loadPitanja, selectPitanje } from '../../store/pitanje.action';
-import { selectPitanjesList } from '../../store/pitanje.selector';
+import { loadFeaturedPitanja, loadPitanja, loadPitanjaByCategory, loadUserFavourites, selectPitanje } from '../../store/pitanje.action';
+import { selectIsLoading, selectPitanjesList } from '../../store/pitanje.selector';
 import { PitanjeValidacija } from '../pitanje/pitanje.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { PitanjeValidacija } from '../pitanje/pitanje.component';
 export class SetPitanjaComponent implements OnInit {
 
   pitanja$: Observable<Pitanje[]> = of([]);
+  isLoading$: Observable<boolean> = of(false);
   pitanjaCurrent: Pitanje[] = [];
   pitanjaSubscription$: Subscription = new Subscription();
 
@@ -29,14 +31,13 @@ export class SetPitanjaComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadFeaturedPitanja());
-    this.store.select
     this.store.dispatch(selectKategorija({ kategorijaId: SpecialCategoryValuesEnum.FEATURED }));
-    this.pitanja$ = this.store.select(selectPitanjesList)
-      .pipe(delay(200));
+    this.pitanja$ = this.store.select(selectPitanjesList);
     this.pitanjaSubscription$ = this.pitanja$.subscribe(pitanja => {
       this.pitanjaCurrent = pitanja;
       this.currentQuestionsType = "ALL";
     });
+    this.isLoading$ = this.store.select(selectIsLoading);
   }
 
   ngOnDestroy() {
@@ -116,4 +117,27 @@ export class SetPitanjaComponent implements OnInit {
       case QuestionTypeEnum.TEXT: this.pitanjaCurrent = this.getCurrentGlobalQuestions().filter(p => p.type === QuestionTypeEnum.TEXT); break;
     }
   }
+
+  reload() {
+    const globalQuestions = this.getCurrentGlobalQuestions();
+    if (globalQuestions.length) {
+      this.pitanjaCurrent = globalQuestions;
+      return;
+    }
+
+    let currentCategory: number = SpecialCategoryValuesEnum.FEATURED;
+    this.store.select(selectSelectedKategorijaId).pipe(take(1)).subscribe(id => currentCategory = id);
+    switch (currentCategory) {
+      case SpecialCategoryValuesEnum.FEATURED: this.store.dispatch(loadFeaturedPitanja()); break;
+      case SpecialCategoryValuesEnum.ALL: this.store.dispatch(loadPitanja()); break;
+      case SpecialCategoryValuesEnum.FAVOURITES: {
+        let favourites;
+        this.store.pipe(take(1)).subscribe(s => favourites = s.user?.user?.favourites);
+        this.store.dispatch(loadUserFavourites({ pitanja: favourites || [] }));
+        break;
+      }
+      default: this.store.dispatch(loadPitanjaByCategory({ categoryId: currentCategory }));
+    }
+  }
+
 }

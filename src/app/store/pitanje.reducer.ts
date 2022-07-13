@@ -5,17 +5,14 @@ import * as Actions from './pitanje.action';
 
 export interface PitanjeState extends EntityState<Pitanje> {
   selectedPitanje: number;
+  isLoading: boolean;
 }
-
-// export interface PitanjeStateOld {
-//   list: Pitanje[],
-//   selectedPitanje: number;
-// }
 
 const adapter = createEntityAdapter<Pitanje>();
 
 export const initialState: PitanjeState = adapter.getInitialState({
   selectedPitanje: 0,
+  isLoading: true,
 });
 
 export const pitanjaReducer = createReducer(
@@ -29,8 +26,20 @@ export const pitanjaReducer = createReducer(
   }),
   on(Actions.loadPitanjaSuccess, (state, { pitanja }) => {
     console.log("loadPitanjaSuccess", pitanja);
-    return adapter.setAll(pitanja, state);
+    return {
+      ...adapter.setAll(pitanja, state),
+      isLoading: false,
+    };
   }),
+  on(Actions.loadPitanjaByCategory,
+    Actions.loadPitanja,
+    Actions.loadFeaturedPitanja,
+    (state) => {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }),
   on(Actions.loadSinglePitanjeSuccess, (state, { pitanje }) => {
     console.log("loadSinglePitanjeSuccess", pitanje);
     return adapter.setOne(pitanje, state);
