@@ -1,5 +1,6 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
+import { SpecialCategoryValuesEnum } from '../enums';
 import { Kategorija } from '../models/kategorija';
 import * as Actions from './kategorije.action';
 
@@ -15,7 +16,7 @@ export interface KategorijaState extends EntityState<Kategorija> {
 const adapter = createEntityAdapter<Kategorija>();
 
 export const initialState: KategorijaState = adapter.getInitialState({
-  selectedKategorija: -1,
+  selectedKategorija: SpecialCategoryValuesEnum.FEATURED,
 });
 
 export const kategorijeReducer = createReducer(

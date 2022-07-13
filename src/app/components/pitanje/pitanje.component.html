@@ -5,13 +5,14 @@
   </mat-card-title>
   <div class="cardTopRightIcons" *ngIf="!isFocusMode">
     <mat-icon *ngIf="pitanje.isFeatured"> bookmark_outline </mat-icon>
-    <button mat-icon-button color="accent" (click)="toggleFavourite()">
+    <button
+      [disabled]="!(user$ | async)?.id"
+      mat-icon-button
+      color="accent"
+      (click)="toggleFavourite()"
+    >
       <mat-icon>
-        {{
-          isFavourite
-            ? "favorite"
-            : "favorite_outline"
-        }}
+        {{ isFavourite ? "favorite" : "favorite_outline" }}
       </mat-icon>
     </button>
   </div>
@@ -59,7 +60,11 @@
       <mat-icon>info</mat-icon>
       <span>Informacije</span>
     </button>
-    <button mat-menu-item (click)="toggleFavourite()">
+    <button
+      [disabled]="!(user$ | async)?.id"
+      mat-menu-item
+      (click)="toggleFavourite()"
+    >
       <mat-icon>{{ isFavourite ? "favorite" : "favorite_outline" }}</mat-icon>
       <span>{{ isFavourite ? "Defavorizuj" : "Favorizuj" }}</span>
     </button>

@@ -29,6 +29,7 @@ export class SetPitanjaComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadFeaturedPitanja());
+    this.store.select
     this.store.dispatch(selectKategorija({ kategorijaId: SpecialCategoryValuesEnum.FEATURED }));
     this.pitanja$ = this.store.select(selectPitanjesList)
       .pipe(delay(200));
