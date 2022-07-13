@@ -14,7 +14,7 @@ import { AppState } from '../../app.state';
 @Component({
   selector: 'app-kategorije',
   templateUrl: './kategorije.component.html',
-  styleUrls: ['./kategorije.component.css']
+  styleUrls: ['./kategorije.component.scss']
 })
 export class KategorijeComponent implements OnInit, OnChanges {
 

@@ -14,7 +14,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 @Component({
   selector: 'app-kategorija-editor',
   templateUrl: './kategorija-editor.component.html',
-  styleUrls: ['./kategorija-editor.component.css']
+  styleUrls: ['./kategorija-editor.component.scss']
 })
 export class KategorijaEditorComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];

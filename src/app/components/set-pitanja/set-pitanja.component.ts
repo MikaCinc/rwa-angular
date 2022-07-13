@@ -13,7 +13,7 @@ import { PitanjeValidacija } from '../pitanje/pitanje.component';
 @Component({
   selector: 'app-set-pitanja',
   templateUrl: './set-pitanja.component.html',
-  styleUrls: ['./set-pitanja.component.css']
+  styleUrls: ['./set-pitanja.component.scss']
 })
 export class SetPitanjaComponent implements OnInit {
 

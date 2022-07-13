@@ -15,7 +15,7 @@ import { selectSelectedPitanje, selectSelectedPitanjeId } from 'src/app/store/pi
 @Component({
   selector: 'app-pitanje-editor',
   templateUrl: './pitanje-editor.component.html',
-  styleUrls: ['./pitanje-editor.component.css']
+  styleUrls: ['./pitanje-editor.component.scss']
 })
 export class PitanjeEditorComponent implements OnInit {
   isEdit: boolean = false;

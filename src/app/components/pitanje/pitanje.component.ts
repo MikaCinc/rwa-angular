@@ -22,7 +22,7 @@ export interface PitanjeValidacija extends Pitanje {
 @Component({
   selector: 'app-pitanje',
   templateUrl: './pitanje.component.html',
-  styleUrls: ['./pitanje.component.css']
+  styleUrls: ['./pitanje.component.scss']
 })
 export class PitanjeComponent implements OnInit {
   @ViewChild('menuTrigger')
