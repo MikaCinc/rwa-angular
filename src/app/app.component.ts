@@ -7,6 +7,7 @@ import { Observable, of, take } from 'rxjs';
 import { AppState } from './app.state';
 import { SpecialCategoryValuesEnum } from './enums';
 import { User } from './models/user';
+import { ThemeService } from './services/theme.service';
 import { selectKategorija } from './store/kategorije.action';
 import { loadFeaturedPitanja, loadPitanja, loadUserFavourites } from './store/pitanje.action';
 import { getProfile, logout } from './store/user.actions';
@@ -23,14 +24,19 @@ export class AppComponent {
   @ViewChild('drawer')
   drawer!: MatDrawer;
   isExpandedDrawer: boolean = false;
+  isDarkMode: boolean = false;
 
   user$: Observable<User | null> = of(null);
 
   constructor(
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
-    private router: Router
-  ) { }
+    private router: Router,
+    private themeService: ThemeService
+  ) {
+    this.themeService.initTheme();
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -43,6 +49,14 @@ export class AppComponent {
 
   ngAfterViewInit() {
     this.drawer.open();
+  }
+
+  toggleTheme() {
+    this.isDarkMode
+      ? this.themeService.update('light-mode')
+      : this.themeService.update('dark-mode');
+
+    this.isDarkMode = this.themeService.isDarkMode();
   }
 
   handleLogout() {

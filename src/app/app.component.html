@@ -43,6 +43,12 @@
         <mat-icon mat-list-icon>stars</mat-icon>
         <span *ngIf="isExpandedDrawer" class="menu-item">Favoriti</span>
       </mat-list-item>
+      <mat-list-item (click)="toggleTheme()">
+        <mat-icon mat-list-icon>{{
+          isDarkMode ? "light_mode" : "dark_mode"
+        }}</mat-icon>
+        <span *ngIf="isExpandedDrawer" class="menu-item">Tamna strana?</span>
+      </mat-list-item>
     </mat-nav-list>
   </mat-drawer>
 
@@ -58,6 +64,14 @@
       </button>
       <span>17743 - Mihajlo Marjanović - RWA - Pitanja</span>
       <span class="example-spacer"></span>
+      <button
+        mat-icon-button
+        class="example-icon theme-icon"
+        aria-label="Theme switcher"
+        (click)="toggleTheme()"
+      >
+        <mat-icon>{{ isDarkMode ? "light_mode" : "dark_mode" }}</mat-icon>
+      </button>
       <button
         mat-icon-button
         class="example-icon home-icon"

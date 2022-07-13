@@ -1,6 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+// Define a light theme
+$light-primary: mat.define-palette(mat.$blue-palette);
+$light-accent: mat.define-palette(mat.$deep-orange-palette);
+$light-theme: mat.define-light-theme(
+    (
+        color: (
+            primary: $light-primary,
+            accent: $light-accent,
+        ),
+    )
+);
+
+// Define a dark theme
+$dark-primary: mat.define-palette(mat.$light-green-palette);
+$dark-accent: mat.define-palette(mat.$deep-orange-palette);
+$dark-theme: mat.define-dark-theme(
+    (
+        color: (
+            primary: $dark-primary,
+            accent: $dark-accent,
+        ),
+    )
+);
+
+// Apply the light theme by default
+@include mat.all-component-themes($light-theme);
+
+// Apply the dark theme only when the `.dark-mode` CSS class is applied
+// to an ancestor element of the components (such as `body`).
+.dark-mode {
+    @include mat.all-component-themes($dark-theme);
+}
+
+html,
+body {
     height: 100%;
 }
 
@@ -13,9 +51,10 @@ body {
     --primary: #0070f3;
     --sharp-blues: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
     --sharp-blues-top-right: linear-gradient(to top right, #00c6fb 0%, #005bea 100%);
-    --new-life: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.40) 0%, rgba(0, 0, 0, 0.40) 120%) #989898;
-    --lily-meadow: linear-gradient(-225deg, #65379B 0%, #886AEA 53%, #6457C6 100%);
-    --fabled-sunset: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
+    --new-life: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%),
+        radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
+    --lily-meadow: linear-gradient(-225deg, #65379b 0%, #886aea 53%, #6457c6 100%);
+    --fabled-sunset: linear-gradient(-225deg, #231557 0%, #44107a 29%, #ff1361 67%, #fff800 100%);
     --phoenix-start: linear-gradient(to right, #f83600 0%, #f9d423 100%);
     --sunny-morning: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
     --saint-petersburg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
