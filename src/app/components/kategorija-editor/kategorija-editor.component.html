@@ -45,23 +45,25 @@
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
-              <input
-                placeholder="Pretraži kategorije.."
-                #catInput
-                [formControl]="catCtrl"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="izbor($event)"
-              />
             </mat-chip-list>
+            <input
+              type="text"
+              placeholder="Pretraži kategorije.."
+              #catInput
+              matInput
+              [formControl]="catCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+            />
             <mat-autocomplete
               #auto="matAutocomplete"
+              autoActiveFirstOption
               (optionSelected)="selected($event)"
+              [displayWith]="displayCategory"
             >
               <mat-option
                 *ngFor="let kategorija of filteredKategorije$ | async"
-                [value]="kategorija.id"
+                [value]="kategorija"
               >
                 {{ kategorija.name }}
               </mat-option>
