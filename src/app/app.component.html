@@ -1,5 +1,10 @@
 <mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav mat-elevation-z3" mode="side">
+  <mat-drawer
+    #drawer
+    class="example-sidenav mat-elevation-z3"
+    mode="side"
+    opened="true"
+  >
     <mat-nav-list>
       <mat-list-item (click)="isExpandedDrawer = !isExpandedDrawer">
         <mat-icon

@@ -19,10 +19,6 @@ import { selectUser } from './store/user.selector';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = '17743-pitanja';
-  /* Drawer */
-  @ViewChild('drawer')
-  drawer!: MatDrawer;
   isExpandedDrawer: boolean = false;
   isDarkMode: boolean = false;
 
@@ -45,10 +41,6 @@ export class AppComponent {
     }
 
     this.user$ = this.store.select(selectUser);
-  }
-
-  ngAfterViewInit() {
-    this.drawer.open();
   }
 
   toggleTheme() {
