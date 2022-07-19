@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
 import { loginUser, registerUser } from 'src/app/store/user.actions';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -66,32 +65,6 @@ export class LoginComponent implements OnInit {
         password: this.password
       }));
     }
-
-
-    /* fetch(environment.api + `/auth/login`, {
-      method: 'POST',
-      // credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: this.username,
-        password: this.password
-      })
-    }).then(res => res.json())
-      .then(res => {
-        console.log(res);
-
-        if (res.success) {
-          this._snackBar.open("Uspešan login", "Zatvori", {
-            duration: 3000,
-            panelClass: [`snack-success`]
-          });
-        } else {
-          this._snackBar.open(res.message, "Zatvori", {
-            duration: 3000,
-            panelClass: [`snack-error`]
-          });
-        }
-      }) */
   }
 
 }

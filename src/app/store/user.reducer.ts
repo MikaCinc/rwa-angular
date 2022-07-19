@@ -1,9 +1,7 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createReducer, on } from '@ngrx/store';
 import { User } from '../models/user';
 import * as UserActions from './user.actions';
 import * as PitanjaActions from './pitanje.action';
-import { state } from '@angular/animations';
 
 export const usersFeatureKey = 'users';
 

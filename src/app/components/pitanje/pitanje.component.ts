@@ -96,16 +96,6 @@ export class PitanjeComponent implements OnInit {
     }));
   }
 
-  /* selectPitanje(pitanje: Pitanje) {
-    console.log("selectPitanje", pitanje);
-
-    this.store.dispatch(
-      selectPitanje({
-        pitanjeId: pitanje.id,
-      })
-    );
-  } */
-
   gotoEdit() {
     const pitanjeId = this.pitanje ? this.pitanje.id : null;
     this.router.navigate(['/pitanje-editor', { id: pitanjeId }]);

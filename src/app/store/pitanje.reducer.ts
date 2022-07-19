@@ -67,18 +67,4 @@ export const pitanjaReducer = createReducer(
       changes: { isFeatured: pitanje.isFeatured },
     }, state);
   }),
-  /* on(Actions.rateSong, (state, { songId, rating }) =>
-    adapter.updateOne(
-      {
-        id: songId,
-        changes: {
-          rating,
-        },
-      },
-      state
-    )
-  ) */
-  // on(Actions.addPitanje, (state, { song}) => {
-  //   return adapter.addOne(song, state);
-  // })
 );

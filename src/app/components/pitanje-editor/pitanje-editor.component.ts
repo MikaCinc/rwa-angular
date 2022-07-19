@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of, Subscription, switchMap } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.state';
 import { QuestionTypeEnum } from 'src/app/enums';
 import { Kategorija } from 'src/app/models/kategorija';
@@ -10,7 +10,7 @@ import { Pitanje } from 'src/app/models/pitanje';
 import { loadKategorije } from 'src/app/store/kategorije.action';
 import { selectKategorijasList } from 'src/app/store/kategorije.selector';
 import { editPitanje, loadSinglePitanje, publishPitanje, selectPitanje } from 'src/app/store/pitanje.action';
-import { selectSelectedPitanje, selectSelectedPitanjeId } from 'src/app/store/pitanje.selector';
+import { selectSelectedPitanje } from 'src/app/store/pitanje.selector';
 
 @Component({
   selector: 'app-pitanje-editor',
@@ -58,25 +58,6 @@ export class PitanjeEditorComponent implements OnInit {
       this.type = x.type;
       this.answer = x.answer;
     });
-
-    // edit
-    /* this.pitanjeToEdit$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        this.pitanjeIdToEdit = Number(params.get('id'));
-        if (this.pitanjeIdToEdit !== -1) this.isEdit = true;
-        this.store.dispatch(selectPitanje({ pitanjeId: this.pitanjeIdToEdit }));
-        console.log(this.pitanjeIdToEdit);
-
-        const pitanje = this.store.select(selectSelectedPitanje);
-        pitanje.subscribe(x => {
-          if (!x || !x.id || x.id !== this.pitanjeIdToEdit) return;
-          this.isCorrect = x.isCorrect;
-          this.value = x.text;
-          this.categories = x.categories;
-        });
-        return pitanje;
-      })
-    ); */
   }
 
   ngOnDestroy() {

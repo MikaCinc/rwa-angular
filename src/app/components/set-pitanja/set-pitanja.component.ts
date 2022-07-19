@@ -77,25 +77,6 @@ export class SetPitanjaComponent implements OnInit {
     } else {
       this.pitanjaCurrent = this.pitanjaCurrent.filter(p => p.id !== ePitanje.id);
     }
-    /* this.pitanja$ =
-      this.pitanja$.pipe(map(pitanja => {
-        if (this.isCyclingQuestions) {
-          return [...pitanja.filter(p => p.id !== ePitanje.id), ePitanje]
-        } else {
-          return [...pitanja.filter(p => p.id !== ePitanje.id)]
-        }
-      })); */
-    /* this.pitanja$ =
-      this.pitanja$.pipe(switchMap(pitanja => {
-        console.log("switchMap", pitanja);
-
-        if (!pitanja.length) return this.store.select(selectPitanjesList);
-        if (this.isCyclingQuestions) {
-          return of([...pitanja.filter(p => p.id !== ePitanje.id), ePitanje]);
-        } else {
-          return of([...pitanja.filter(p => p.id !== ePitanje.id)]);
-        }
-      })); */
   }
 
   selectPitanje(pitanje: Pitanje, answer: boolean) {
